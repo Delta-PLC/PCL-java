@@ -1,5 +1,6 @@
 package com.plc.user.controller;
 
+import com.plc.exception.IdNotFound;
 import com.plc.exception.RoleNotFound;
 import com.plc.jwt.JwtUtils;
 import com.plc.payload.Request.LoginRequest;
@@ -15,6 +16,7 @@ import com.plc.user.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -130,6 +133,11 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<User> FindById(@PathVariable Long id) throws IdNotFound {
+
+        return new ResponseEntity<> (userRepository.findById(id).orElseThrow(() -> new IdNotFound()),HttpStatus.ACCEPTED);
+    }
 
 
 }
