@@ -21,10 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +29,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/deltaplc/user")
 public class AuthController {
 
@@ -50,7 +48,7 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtUtils jwtUtils;
-    @PostMapping("signin")
+    @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         log.info("Login Number {} ",loginRequest.getMobilenumber());
         Authentication authentication = authenticationManager.authenticate(
@@ -68,7 +66,7 @@ public class AuthController {
                 userDetails.getEmail(), userDetails.getMobileNumber(),
                 userDetails.getDatetime(), roles));
     }
-    @PostMapping("signup")
+    @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) throws Exception {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
