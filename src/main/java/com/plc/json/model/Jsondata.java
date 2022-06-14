@@ -1,8 +1,10 @@
 package com.plc.json.model;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name="json_data")
@@ -11,18 +13,24 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Jsondata {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  //  @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
     private String ipAddress;
-    private long status;
-    private long actualTimer;
-    private long setTimer;
+    private Long status;
+    private Long actualTimer;
+    private Long setTimer;
 
-    public long getId() {
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -67,5 +75,22 @@ public class Jsondata {
                 ", actualTimer=" + actualTimer +
                 ", setTimer=" + setTimer +
                 '}';
+    }
+
+    public String ip()
+    {
+        return (""+ipAddress);
+    }
+    public String st()
+    {
+        return (""+status);
+    }
+    public String att()
+    {
+        return (" "+actualTimer);
+    }
+    public String stt()
+    {
+        return (""+setTimer);
     }
 }

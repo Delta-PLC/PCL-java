@@ -1,8 +1,6 @@
 package com.plc.user.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
@@ -12,6 +10,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Role {
 
     @Id
@@ -21,4 +21,8 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private Roles name;
 
+
+    public Role(Roles roleAdmin) {
+        this.name=roleAdmin;
+    }
 }
