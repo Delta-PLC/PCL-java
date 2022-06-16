@@ -4,16 +4,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
-public class ImageException extends RuntimeException {
-    public ImageException() {
+public class CompanyPlcNotFound extends RuntimeException {
+    public CompanyPlcNotFound() {
         super();
     }
 
-    public ImageException(String msg) {
+    public CompanyPlcNotFound(String msg) {
         super(msg);
     }
 
-    public ImageException(String msg, Throwable cause) {
+    public CompanyPlcNotFound(String msg, Throwable cause) {
         super(msg, cause);
     }
 }
