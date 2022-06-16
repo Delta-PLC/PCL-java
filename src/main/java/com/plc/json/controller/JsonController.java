@@ -13,18 +13,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -42,8 +38,8 @@ public class JsonController {
         this.jsonRepository = jsonRepository;
     }
 
-    @GetMapping("/writeJson")
-    public ResponseEntity<?> WithModellist() throws FileNotFoundException, IOException, SQLException, ParseException {
+    @GetMapping("/writedb")
+    public ResponseEntity<?> writeindb() throws FileNotFoundException, IOException, SQLException, ParseException {
 
 
         Jsondata jsondata = new Jsondata();
@@ -138,66 +134,25 @@ public class JsonController {
 
     }
 
-    @GetMapping("/readJson")
-    public ResponseEntity<List<Jsondata>> showUser() {
+
+
+    @GetMapping("/read")
+    public ResponseEntity<List<Jsondata>> showData() {
         log.info("Data", jsonRepository.findAll());
         return ResponseEntity.ok(jsonRepository.findAll());
     }
 
-    @GetMapping("/putJson")
-    public ResponseEntity<List<Jsondata>> putData() throws SQLException {
-
-        String url = "jdbc:postgresql://localhost:5432/plc_project";
-        String user = "postgres";
-        String password = "postgres";
-
-        Connection con= DriverManager.getConnection(url, user, password);
-        //System.out.println("connection done");
-        String select_sql= "select * from public.json_data;";
-        PreparedStatement pstn = con.prepareStatement(select_sql);
-        System.out.println(pstn);
-        ResultSet rs = pstn.executeQuery();
-        int i=1;
-        try {
-            FileWriter file = new FileWriter("/home/endloss/Desktop/data_db1_json.json");
-            while (rs.next()) {
-                String ip=rs.getString("ip_address");
-                int status=rs.getInt("status");
-                int at=rs.getInt("actual_timer");
-                int st=rs.getInt("set_timer");
-
-                System.out.println("Server_IP: "+ip);
-                System.out.println("Status: "+status);
-                System.out.println("Actual_Timer: "+at);
-                System.out.println("Set_Timer: "+st);
-
-                System.out.println("____________________________");
-//        	System.out.println(i);
-                i++;
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("Server_IP",ip);
-                jsonObject.put("Status",status);
-                jsonObject.put("Actual_Timer",at);
-                jsonObject.put("Set_Timer",st);
 
 
-                file.write(jsonObject.toJSONString());
-
-                System.out.println("JSON file created: "+jsonObject);
-            }
-            file.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    @GetMapping("/read/{id}")
+    public ResponseEntity<?> getIpById(@PathVariable("id") UUID id) {
+        Optional<?> ipData = jsonRepository.findById(id);
+        if (ipData.isPresent()) {
+            return new ResponseEntity<>(ipData.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-
-        log.info("Data", jsonRepository.findAll());
-        return ResponseEntity.ok(jsonRepository.findAll());
     }
-
 
 }
 
