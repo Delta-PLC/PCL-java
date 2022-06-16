@@ -1,7 +1,8 @@
 package com.plc.user.controller;
 
-import com.plc.exception.IdNotFound;
-import com.plc.exception.RoleNotFound;
+import com.plc.exception.ExceptionService.RoleNotFound;
+import com.plc.exception.ExceptionService.UserNotFound;
+
 import com.plc.jwt.JwtUtils;
 import com.plc.payload.Request.LoginRequest;
 import com.plc.payload.Request.SignupRequest;
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -134,9 +134,9 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<User> FindById(@PathVariable Long id) throws IdNotFound {
+    public ResponseEntity<User> FindById(@PathVariable Long id)  {
 
-        return new ResponseEntity<> (userRepository.findById(id).orElseThrow(() -> new IdNotFound()),HttpStatus.ACCEPTED);
+        return new ResponseEntity<> (userRepository.findById(id).orElseThrow(() -> new UserNotFound("user not found in this System")),HttpStatus.ACCEPTED);
     }
 
 
