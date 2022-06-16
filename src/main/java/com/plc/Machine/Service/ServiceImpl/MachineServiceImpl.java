@@ -5,11 +5,12 @@ import com.plc.Machine.Entity.Machine;
 import com.plc.Machine.Repository.MachineRepository;
 import com.plc.Machine.Service.MachineService;
 import com.plc.exception.ExceptionService.MachineNotFound;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Service
 public class MachineServiceImpl implements MachineService {
     private final MachineRepository machineRepository;
 
