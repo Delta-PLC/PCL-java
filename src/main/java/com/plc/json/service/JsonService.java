@@ -25,4 +25,5 @@ public class JsonService {
         return jsonRepository.saveAll(jsondataList);
     }
 
+
 }
