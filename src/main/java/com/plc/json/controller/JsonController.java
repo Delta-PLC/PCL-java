@@ -43,8 +43,6 @@ public class JsonController {
 
 
         Jsondata jsondata = new Jsondata();
-
-
         JSONParser parser = new JSONParser();
         JSONArray jsonArray = (JSONArray) parser.parse(new FileReader("/home/endloss/Downloads/data.json"));
 
