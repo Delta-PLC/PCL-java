@@ -12,5 +12,5 @@ import lombok.Setter;
 public class CustomerPlcSaveDto {
     private String regName;
     private String regAni;
-    private boolean active;
+    private boolean customerActive;
 }

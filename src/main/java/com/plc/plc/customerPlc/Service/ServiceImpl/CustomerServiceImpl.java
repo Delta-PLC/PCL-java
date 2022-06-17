@@ -5,11 +5,12 @@ import com.plc.plc.customerPlc.Dto.CustomerPlcSaveDto;
 import com.plc.plc.customerPlc.Entity.CustomerPlc;
 import com.plc.plc.customerPlc.Repository.CustomerPlcRepository;
 import com.plc.plc.customerPlc.Service.CustomerPlcService;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Service
 public class CustomerServiceImpl implements CustomerPlcService {
     private final CustomerPlcRepository customerPlcRepository;
 
@@ -22,7 +23,7 @@ public class CustomerServiceImpl implements CustomerPlcService {
         CustomerPlc customerPlc = new CustomerPlc();
         customerPlc.setRegName(customerPlcSaveDto.getRegName());
         customerPlc.setRegAni(customerPlcSaveDto.getRegAni());
-        customerPlc.setActive(customerPlcSaveDto.isActive());
+        customerPlc.setCustomerActive(customerPlcSaveDto.isCustomerActive());
         return customerPlcRepository.save(customerPlc);
     }
 
@@ -39,7 +40,7 @@ public class CustomerServiceImpl implements CustomerPlcService {
         if (customerPlc.getCustomerPlcId() != null) {
             customerPlc.setRegName(customerPlcSaveDto.getRegName());
             customerPlc.setRegAni(customerPlcSaveDto.getRegAni());
-            customerPlc.setActive(customerPlcSaveDto.isActive());
+            customerPlc.setCustomerActive(customerPlcSaveDto.isCustomerActive());
         }
         return customerPlcRepository.save(customerPlc);
     }

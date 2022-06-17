@@ -1,15 +1,16 @@
 package com.plc.Machine.Service.ServiceImpl;
 
 import com.plc.Machine.Dto.MachineSaveDto;
-import com.plc.Machine.Entity.Machine;
+import com.plc.Machine.Entity.MachineEntity;
 import com.plc.Machine.Repository.MachineRepository;
 import com.plc.Machine.Service.MachineService;
 import com.plc.exception.ExceptionService.MachineNotFound;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Service
 public class MachineServiceImpl implements MachineService {
     private final MachineRepository machineRepository;
 
@@ -18,30 +19,30 @@ public class MachineServiceImpl implements MachineService {
     }
 
     @Override
-    public Machine save(MachineSaveDto machineSaveDto) {
-        Machine machine = new Machine();
-        machine.setMachineName(machineSaveDto.getMachineName());
-        machine.setMachineIp(machineSaveDto.getMachineIp());
-        machine.setMachinePort(machineSaveDto.getMachinePort());
-        machine.setDevId(machineSaveDto.getDevId());
-        machine.setPermission(machineSaveDto.getPermission());
-        machine.setActive(machineSaveDto.isActive());
-        return machineRepository.save(machine);
+    public MachineEntity save(MachineSaveDto machineSaveDto) {
+        MachineEntity machineEntity = new MachineEntity();
+        machineEntity.setMachineName(machineSaveDto.getMachineName());
+        machineEntity.setMachineIp(machineSaveDto.getMachineIp());
+        machineEntity.setMachinePort(machineSaveDto.getMachinePort());
+        machineEntity.setDevId(machineSaveDto.getDevId());
+        machineEntity.setPermissionn(machineSaveDto.getPermissionn());
+        machineEntity.setMachineActive(machineSaveDto.isMachineActive());
+        return machineRepository.save(machineEntity);
     }
 
     @Override
-    public Machine update(Long machineId, MachineSaveDto machineSaveDto) {
-        Machine machine=machineRepository.findById(machineId).orElseThrow(()->new MachineNotFound("sorry ! Machine is Not Found"));
-        if (machine.getMachine_id()!= null)
+    public MachineEntity update(Long machineId, MachineSaveDto machineSaveDto) {
+        MachineEntity machineEntity =machineRepository.findById(machineId).orElseThrow(()->new MachineNotFound("sorry ! Machine is Not Found"));
+        if (machineEntity.getMachine_id()!= null)
         {
-            machine.setMachineName(machineSaveDto.getMachineName());
-            machine.setMachineIp(machineSaveDto.getMachineIp());
-            machine.setMachinePort(machineSaveDto.getMachinePort());
-            machine.setDevId(machineSaveDto.getDevId());
-            machine.setPermission(machineSaveDto.getPermission());
-            machine.setActive(machineSaveDto.isActive());
+            machineEntity.setMachineName(machineSaveDto.getMachineName());
+            machineEntity.setMachineIp(machineSaveDto.getMachineIp());
+            machineEntity.setMachinePort(machineSaveDto.getMachinePort());
+            machineEntity.setDevId(machineSaveDto.getDevId());
+            machineEntity.setPermissionn(machineSaveDto.getPermissionn());
+            machineEntity.setMachineActive(machineSaveDto.isMachineActive());
         }
-        return machineRepository.save(machine);
+        return machineRepository.save(machineEntity);
     }
 
     @Override
@@ -51,15 +52,15 @@ public class MachineServiceImpl implements MachineService {
     }
 
     @Override
-    public List<Machine> findAll() {
+    public List<MachineEntity> findAll() {
         return machineRepository.findAll()
                 .stream()
-                .sorted(Comparator.comparing(Machine::getMachine_id))
+                .sorted(Comparator.comparing(MachineEntity::getMachine_id))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Machine findById(Long machineId) {
+    public MachineEntity findById(Long machineId) {
         return machineRepository.findById(machineId)
                 .orElseThrow(()->new MachineNotFound("sorry ! Machine is Not Found"));
     }

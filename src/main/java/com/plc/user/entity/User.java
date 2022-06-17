@@ -1,16 +1,21 @@
 package com.plc.user.entity;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.plc.company.Entity.CompanyEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name="USER_REGISTRATION")
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class User{
@@ -31,13 +36,25 @@ public class User{
     }
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles_data",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles=new HashSet<>();
 
-    private Set<Role> roles;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "com_id"),name ="com_id" ,referencedColumnName = "company_id")
+    @JsonIgnoreProperties(value = "userList")
+    private CompanyEntity companyEntityData;
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public User(String username, String email, String encode, String mobileNumber, String city, String address) {
         this.username=username;
@@ -46,5 +63,18 @@ public class User{
         this.mobileNumber=mobileNumber;
         this.city=city;
         this.address=address;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "id = " + id + ", " +
+                "username = " + username + ", " +
+                "email = " + email + ", " +
+                "password = " + password + ", " +
+                "mobileNumber = " + mobileNumber + ", " +
+                "datetime = " + datetime + ", " +
+                "address = " + address + ", " +
+                "city = " + city + ")";
     }
 }

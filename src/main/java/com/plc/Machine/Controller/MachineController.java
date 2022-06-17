@@ -1,7 +1,6 @@
 package com.plc.Machine.Controller;
 
 import com.plc.Machine.Dto.MachineSaveDto;
-import com.plc.Machine.Entity.Machine;
 import com.plc.Machine.Service.ServiceImpl.MachineServiceImpl;
 import com.plc.payload.Response.PageResponse;
 import org.slf4j.Logger;

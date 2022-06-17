@@ -16,5 +16,5 @@ public class CompanySaveDto {
     private String companyEmail;
     private String companyNumber;
     private String companyGstNumber;
-    private boolean active;
+    private boolean companyActive;
 }

@@ -115,7 +115,12 @@ public class AuthController {
                                 .orElseThrow(() -> new RoleNotFound("Error: Role is not found."));
                         roles.add(superRole);
                         System.out.println("superRole values");
-
+                        break;
+                    case "COMPABYADMIN":
+                        Role companyAdminRole = roleRepository.findByName(Roles.ROLE_COMPAYOWNER)
+                                .orElseThrow(() -> new RoleNotFound("Error: Role is not found."));
+                        roles.add(companyAdminRole);
+                        System.out.println("companyAdminRole values");
                         break;
 
                     default:

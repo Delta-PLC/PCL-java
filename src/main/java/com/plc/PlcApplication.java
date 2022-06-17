@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 public class PlcApplication  implements ApplicationRunner {
 
 	private final UserRepository userRepository;
@@ -39,8 +38,9 @@ public class PlcApplication  implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 
-		Role roles=new Role(Roles.ROLE_ADMIN);
+
 		User user=new User();
+		log.info("user ROle {}",user.getRoles());
 		user.setUsername("admin");
 		user.setEmail("admin@gmail.com");
 		user.setPassword(passwordEncoder.encode("admin"));
@@ -48,13 +48,16 @@ public class PlcApplication  implements ApplicationRunner {
 		user.setAddress("karol bag");
 		user.setCity("ahmedabad");
 
-
+		Role roles=new Role(Roles.ROLE_ADMIN);
+		Role roleSuperadmin=new Role(Roles.ROLE_SUPERADMIN);
 
 
 		List<User> data=userRepository.findAll();
 		if (data.isEmpty()) {
 			roleRepository.save(roles);
-			//user.getRoles().add(roles);
+			roleRepository.save(roleSuperadmin);
+			user.getRoles().add(roleSuperadmin);
+			user.getRoles().add(roles);
 		//	log.info("{}",user.getRoles());
 
 			userRepository.save(user);

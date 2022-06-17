@@ -15,6 +15,6 @@ public class MachineSaveDto {
     private String machineIp;
     private int machinePort;
     private int devId;
-    private String permission;
-    private boolean active;
+    private String permissionn;
+    private boolean machineActive;
 }
