@@ -27,4 +27,10 @@ public class Method  extends Audit<String> {
     @OneToMany(mappedBy = "method",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"method"})
     private List<CustomerPlc> customerPlcListDAta;
+
+
+
+    public void RemoveCustomerPlc(CustomerPlc customerPlc) {
+        customerPlcListDAta.remove(customerPlc);
+    }
 }

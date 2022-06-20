@@ -50,4 +50,16 @@ public class MethodController {
         methodServiceImpl.deleteMethodById(methodId);
         return new ResponseEntity<>(new MessageResponse("Delete SuccessFully "+methodId),HttpStatus.NO_CONTENT);
     }
+    @PutMapping(value = "/{methodId}/update/{customerPlcId}")
+    public ResponseEntity<?> updateCustomerPlc(@PathVariable Long methodId,@PathVariable Long customerPlcId)
+    {
+        methodServiceImpl.UpdateMethodIdInCustomerPlc(methodId, customerPlcId);
+        return new ResponseEntity<>(new MessageResponse("update SuccessFully "+customerPlcId),HttpStatus.NO_CONTENT);
+    }
+    @DeleteMapping(value = "/{methodId}/update/{customerPlcId}")
+    public ResponseEntity<?> deleteCustomerPlc(@PathVariable Long methodId,@PathVariable Long customerPlcId)
+    {
+        methodServiceImpl.RemoveMethodIdInCustomerPlc(methodId, customerPlcId);
+        return new ResponseEntity<>(new MessageResponse("delete SuccessFully "+customerPlcId),HttpStatus.NO_CONTENT);
+    }
 }

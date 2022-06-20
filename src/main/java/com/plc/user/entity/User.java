@@ -48,6 +48,14 @@ public class User{
     @JsonIgnoreProperties(value = "userList")
     private CompanyEntity companyEntityData;
 
+    public CompanyEntity getCompanyEntityData() {
+        return companyEntityData;
+    }
+
+    public void setCompanyEntityData(CompanyEntity companyEntityData) {
+        this.companyEntityData = companyEntityData;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -76,5 +84,9 @@ public class User{
                 "datetime = " + datetime + ", " +
                 "address = " + address + ", " +
                 "city = " + city + ")";
+    }
+
+    public void updateCompanyId(CompanyEntity companyEntity) {
+        this.companyEntityData=companyEntity;
     }
 }

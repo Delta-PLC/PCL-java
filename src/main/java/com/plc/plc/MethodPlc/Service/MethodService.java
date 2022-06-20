@@ -11,4 +11,6 @@ public interface MethodService {
     List<?> getAll();
     void deleteMethodById(Long methodId);
     Method updateData(Long methodId,MethodSaveDto methodSaveDto);
+    void UpdateMethodIdInCustomerPlc(Long methodId,Long customerPlcId);
+    void RemoveMethodIdInCustomerPlc(Long methodId,Long customerPlcId);
 }

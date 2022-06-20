@@ -1,5 +1,7 @@
 package com.plc.user.controller;
 
+import com.plc.company.Entity.CompanyEntity;
+import com.plc.company.Repository.CompanyRepository;
 import com.plc.exception.ExceptionService.RoleNotFound;
 import com.plc.exception.ExceptionService.UserNotFound;
 
@@ -8,6 +10,7 @@ import com.plc.payload.Request.LoginRequest;
 import com.plc.payload.Request.SignupRequest;
 import com.plc.payload.Response.JwtResponse;
 import com.plc.payload.Response.MessageResponse;
+import com.plc.payload.Response.PageResponse;
 import com.plc.secutiry.UserDetailsImpl;
 import com.plc.user.entity.Role;
 import com.plc.user.entity.Roles;
@@ -37,7 +40,7 @@ import java.util.stream.Collectors;
 public class AuthController {
 
     private final static Logger log= LoggerFactory.getLogger(AuthController.class);
-
+    private final CompanyRepository companyRepository;
     @Autowired
     private UserRepository userRepository;
 
@@ -51,6 +54,11 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtUtils jwtUtils;
+
+    public AuthController(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
+    }
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
        // log.info("Login Number {} ",loginRequest.getMobilenumber());
@@ -142,6 +150,15 @@ public class AuthController {
     public ResponseEntity<User> FindById(@PathVariable Long id)  {
 
         return new ResponseEntity<> (userRepository.findById(id).orElseThrow(() -> new UserNotFound("user not found in this System")),HttpStatus.ACCEPTED);
+    }
+    @PutMapping("/{userId}/update/{companyId}")
+    public ResponseEntity<?> updateDat(@PathVariable Long userId,@PathVariable Long companyId)
+    {
+        User user=userRepository.findById(userId).get();
+        CompanyEntity companyEntity=companyRepository.findById(companyId).get();
+        user.updateCompanyId(companyEntity);
+        userRepository.save(user);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(user),HttpStatus.OK);
     }
 
 

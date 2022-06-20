@@ -40,4 +40,7 @@ public class CustomerPlc {
     private Method method;
 
 
+    public void updateCustomerPlc(Method method) {
+        this.method=method;
+    }
 }
