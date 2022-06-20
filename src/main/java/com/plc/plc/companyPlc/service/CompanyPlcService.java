@@ -13,5 +13,4 @@ public interface CompanyPlcService {
     void deleteById(Long companyPlcId);
     CompanyPlc updateCompanyPlc(Long companyPlcId,CompanyPlcSaveDto companyPlcSaveDto);
 
-
 }

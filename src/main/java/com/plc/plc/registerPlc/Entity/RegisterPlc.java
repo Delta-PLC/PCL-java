@@ -33,8 +33,4 @@ public class RegisterPlc extends Audit<String> {
     private CompanyPlc companyPlcData;
 
 
-    public void updateCompanyPlcId(CompanyPlc companyPlc) {
-        this.companyPlcData=companyPlc;
-    }
-
 }

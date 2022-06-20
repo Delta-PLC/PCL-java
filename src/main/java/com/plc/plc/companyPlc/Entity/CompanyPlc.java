@@ -26,7 +26,4 @@ public class CompanyPlc extends Audit<String > {
     @JsonIgnoreProperties(value = {"companyPlcData"})
     private List<RegisterPlc> registerPlcsList;
 
-    public void RemoveCompanyPlcId(RegisterPlc registerPlc) {
-        registerPlcsList.remove(registerPlc);
-    }
 }
