@@ -11,4 +11,6 @@ public interface RegisterPlcService {
     RegisterPlc updateRegisterPlcData(Long registerPlcId,RegisterPlcSaveDto registerPlcSaveDto);
     List<?> findAll();
     void deleteById(Long registerPlcId);
+    void updateCompanyPlcIdInRegisterPlc(Long  companyPlcId,Long registerPlcId);
+    void RemoveCompanyPlcIdInRegisterPlc(Long registerPlcId,Long  companyPlcId);
 }

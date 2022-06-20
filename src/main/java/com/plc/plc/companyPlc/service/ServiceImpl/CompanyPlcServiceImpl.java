@@ -60,4 +60,6 @@ public class CompanyPlcServiceImpl implements CompanyPlcService {
        }
         return companyPlcRepository.save(companyPlc);
     }
+
+
 }

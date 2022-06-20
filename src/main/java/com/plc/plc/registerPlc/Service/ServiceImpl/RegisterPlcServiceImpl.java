@@ -1,6 +1,9 @@
 package com.plc.plc.registerPlc.Service.ServiceImpl;
 
+import com.plc.exception.ExceptionService.CompanyPlcNotFound;
 import com.plc.exception.ExceptionService.ResourceNotFound;
+import com.plc.plc.companyPlc.Entity.CompanyPlc;
+import com.plc.plc.companyPlc.Repository.CompanyPlcRepository;
 import com.plc.plc.registerPlc.Dto.RegisterPlcSaveDto;
 import com.plc.plc.registerPlc.Entity.RegisterPlc;
 import com.plc.plc.registerPlc.Repository.RegisterPlcRepository;
@@ -13,10 +16,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class RegisterPlcServiceImpl implements RegisterPlcService {
-    private final RegisterPlcRepository registerPlcRepository;
 
-    public RegisterPlcServiceImpl(RegisterPlcRepository registerPlcRepository) {
+    private final RegisterPlcRepository registerPlcRepository;
+    private final CompanyPlcRepository companyPlcRepository;
+    public RegisterPlcServiceImpl(RegisterPlcRepository registerPlcRepository, CompanyPlcRepository companyPlcRepository) {
         this.registerPlcRepository = registerPlcRepository;
+        this.companyPlcRepository = companyPlcRepository;
     }
 
     @Override
@@ -54,5 +59,26 @@ public class RegisterPlcServiceImpl implements RegisterPlcService {
     @Override
     public void deleteById(Long registerPlcId) {
         registerPlcRepository.deleteById(registerPlcId);
+    }
+
+    @Override
+    public void updateCompanyPlcIdInRegisterPlc(Long companyPlcId, Long registerPlcId) {
+        CompanyPlc companyPlc=companyPlcRepository.findById(companyPlcId)
+                .orElseThrow(()->new CompanyPlcNotFound("Company Plc Not Found => "+companyPlcId));
+        RegisterPlc registerPlc=registerPlcRepository.findById(registerPlcId)
+                .orElseThrow(()->new ResourceNotFound("Register Not Found => "+registerPlcId));
+        registerPlc.updateCompanyPlcId(companyPlc);
+        registerPlcRepository.save(registerPlc);
+    }
+
+    @Override
+    public void RemoveCompanyPlcIdInRegisterPlc(Long registerPlcId,Long companyPlcId ) {
+        RegisterPlc registerPlc=registerPlcRepository.findById(registerPlcId)
+                .orElseThrow(()->new ResourceNotFound("Register Not Found => "+registerPlcId));
+        CompanyPlc companyPlc=companyPlcRepository.findById(companyPlcId)
+                .orElseThrow(()->new CompanyPlcNotFound("Company Plc Not Found => "+companyPlcId));
+
+        companyPlc.RemoveCompanyPlcId(registerPlc);
+        companyPlcRepository.save(companyPlc);
     }
 }

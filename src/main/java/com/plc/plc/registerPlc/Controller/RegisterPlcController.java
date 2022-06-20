@@ -49,5 +49,16 @@ public class RegisterPlcController {
         registerPlcServiceImpl.deleteById(registerPlcId);
         return new ResponseEntity<>(new MessageResponse("Delete SuccessFully " + registerPlcId), HttpStatus.NO_CONTENT);
     }
-
+    @PutMapping(value = "{companyPlcId}/updateInRegister/{registerPlcId}")
+    public ResponseEntity<?> updateCompanyPlcInRegister(@PathVariable Long companyPlcId,@PathVariable Long registerPlcId)
+    {
+        registerPlcServiceImpl.updateCompanyPlcIdInRegisterPlc(companyPlcId,registerPlcId);
+        return new ResponseEntity<>(new MessageResponse("Company Plc "+ companyPlcId +"update in Register "+registerPlcId),HttpStatus.ACCEPTED);
+    }
+    @PutMapping(value = "{registerPlcId}/updateInRegister/{companyPlcId}")
+    public ResponseEntity<?> RemoveCompanyPlcInRegister(@PathVariable Long registerPlcId,@PathVariable Long companyPlcId)
+    {
+        registerPlcServiceImpl.updateCompanyPlcIdInRegisterPlc(registerPlcId,registerPlcId);
+        return new ResponseEntity<>(new MessageResponse("Company Plc "+ companyPlcId +"remove in Register "+registerPlcId),HttpStatus.NO_CONTENT);
+    }
 }
