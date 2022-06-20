@@ -44,7 +44,7 @@ public class PlcApplication  implements ApplicationRunner {
 		user.setUsername("admin");
 		user.setEmail("admin@gmail.com");
 		user.setPassword(passwordEncoder.encode("admin"));
-		user.setMobileNumber("123456789");
+		user.setMobileNumber("1234567890");
 		user.setAddress("karol bag");
 		user.setCity("ahmedabad");
 

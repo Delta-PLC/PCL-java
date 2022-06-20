@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "company/api")
 public class CompanyController {
     private final CompanyServiceImpl companyServiceImpl;
