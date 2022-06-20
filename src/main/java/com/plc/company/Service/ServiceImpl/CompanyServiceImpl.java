@@ -43,4 +43,26 @@ public class CompanyServiceImpl implements CompanyService {
                 .sorted(Comparator.comparing(CompanyEntity::getCompany_id))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public CompanyEntity updateCompanyData(Long CompanyId, CompanySaveDto companySaveDto) {
+       CompanyEntity companyEntity =companyRepository.findById(CompanyId)
+                .orElseThrow(()->new CompanyNotFound("company Not Found =>"+CompanyId));
+       if (companyEntity.getCompany_id()!=null)
+       {
+           companyEntity.setCompanyName(companySaveDto.getCompanyName());
+           companyEntity.setCompanyAdd(companySaveDto.getCompanyAdd());
+           companyEntity.setCompanyEmail(companySaveDto.getCompanyEmail());
+           companyEntity.setCompanyNumber(companySaveDto.getCompanyNumber());
+           companyEntity.setCompanyGstNumber(companySaveDto.getCompanyGstNumber());
+           companyEntity.setCompanyActive(companySaveDto.isCompanyActive());
+       }
+        return companyRepository.save(companyEntity);
+    }
+
+    @Override
+    public void deleteCompany(Long companyId) {
+        companyRepository.deleteById(companyId);
+
+    }
 }

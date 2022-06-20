@@ -1,5 +1,6 @@
 package com.plc.company.Controller;
 
+import com.plc.company.Entity.CompanyEntity;
 import com.plc.company.Service.ServiceImpl.CompanyServiceImpl;
 import com.plc.company.dto.CompanySaveDto;
 import com.plc.payload.Response.PageResponse;
@@ -34,5 +35,10 @@ public class CompanyController {
         Object data=companyServiceImpl.findById(companyId);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
-
+    @PutMapping
+    public ResponseEntity<?> updateData(@PathVariable Long companyId,@RequestBody CompanySaveDto companySaveDto)
+    {
+        CompanyEntity companyPlc=companyServiceImpl.updateCompanyData(companyId,companySaveDto);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(companyPlc),HttpStatus.ACCEPTED);
+    }
 }

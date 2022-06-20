@@ -10,4 +10,7 @@ public interface CompanyService {
     CompanyEntity save(CompanySaveDto companySaveDto);
     CompanyEntity findById(Long CompanyId);
     List<?> findAll();
+
+    CompanyEntity updateCompanyData(Long CompanyId,CompanySaveDto companySaveDto);
+    void deleteCompany(Long companyId);
 }
