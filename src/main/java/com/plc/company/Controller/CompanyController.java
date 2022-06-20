@@ -22,5 +22,17 @@ public class CompanyController {
         Object data=companyServiceImpl.save(companySaveDto);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.CREATED);
     }
+    @GetMapping
+    public ResponseEntity<?> getAllCompanyData()
+    {
+        Object data=companyServiceImpl.findAll();
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
+    }
+    @GetMapping(value = "/{companyId}")
+    public ResponseEntity<?> getByIdCompanyData(@PathVariable Long companyId)
+    {
+        Object data=companyServiceImpl.findById(companyId);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
+    }
 
 }
