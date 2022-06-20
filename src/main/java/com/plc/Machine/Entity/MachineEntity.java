@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plc.AuditingAndResponse.Audit;
 import com.plc.company.Entity.CompanyEntity;
 import com.plc.plc.customerPlc.Entity.CustomerPlc;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +13,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
+@ToString
 @Entity
 @Table(name = "tblmachine_details")
 public class MachineEntity extends Audit<String> {
@@ -36,4 +34,8 @@ public class MachineEntity extends Audit<String> {
     @OneToMany(mappedBy = "machineEntityData",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"machineEntityData"})
     private List<CustomerPlc> customerPlcList;
+
+    public void companyIdUpdate(CompanyEntity company) {
+        this.companyEntityList=company;
+    }
 }

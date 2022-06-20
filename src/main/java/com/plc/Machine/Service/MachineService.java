@@ -11,4 +11,6 @@ public interface MachineService {
     Object Delete(Long machineId);
     List<MachineEntity> findAll();
     MachineEntity findById(Long machineId);
+
+    MachineEntity updateCompanyId(Long machineId,Long companyId);
 }

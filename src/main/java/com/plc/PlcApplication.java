@@ -44,18 +44,27 @@ public class PlcApplication  implements ApplicationRunner {
 		user.setUsername("admin");
 		user.setEmail("admin@gmail.com");
 		user.setPassword(passwordEncoder.encode("admin"));
-		user.setMobileNumber("123456789");
+		user.setMobileNumber("1234567890");
 		user.setAddress("karol bag");
 		user.setCity("ahmedabad");
 
-		Role roles=new Role(Roles.ROLE_ADMIN);
 		Role roleSuperadmin=new Role(Roles.ROLE_SUPERADMIN);
+		Role roles=new Role(Roles.ROLE_ADMIN);
+		Role roles1=new Role(Roles.ROLE_EMPLOYEE);
+		Role roles2=new Role(Roles.ROLE_MODERATOR);
+		Role roles3=new Role(Roles.ROLE_USER);
+
 
 
 		List<User> data=userRepository.findAll();
 		if (data.isEmpty()) {
-			roleRepository.save(roles);
 			roleRepository.save(roleSuperadmin);
+			roleRepository.save(roles);
+			roleRepository.save(roles1);
+			roleRepository.save(roles2);
+			roleRepository.save(roles3);
+
+
 			user.getRoles().add(roleSuperadmin);
 			user.getRoles().add(roles);
 		//	log.info("{}",user.getRoles());

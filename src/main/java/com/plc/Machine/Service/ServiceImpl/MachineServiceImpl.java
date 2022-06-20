@@ -4,6 +4,9 @@ import com.plc.Machine.Dto.MachineSaveDto;
 import com.plc.Machine.Entity.MachineEntity;
 import com.plc.Machine.Repository.MachineRepository;
 import com.plc.Machine.Service.MachineService;
+import com.plc.company.Entity.CompanyEntity;
+import com.plc.company.Repository.CompanyRepository;
+import com.plc.exception.ExceptionService.CompanyNotFound;
 import com.plc.exception.ExceptionService.MachineNotFound;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +16,10 @@ import java.util.stream.Collectors;
 @Service
 public class MachineServiceImpl implements MachineService {
     private final MachineRepository machineRepository;
-
-    public MachineServiceImpl(MachineRepository machineRepository) {
+    private final CompanyRepository companyRepository;
+    public MachineServiceImpl(MachineRepository machineRepository, CompanyRepository companyRepository) {
         this.machineRepository = machineRepository;
+        this.companyRepository = companyRepository;
     }
 
     @Override
@@ -62,7 +66,16 @@ public class MachineServiceImpl implements MachineService {
     @Override
     public MachineEntity findById(Long machineId) {
         return machineRepository.findById(machineId)
-                .orElseThrow(()->new MachineNotFound("sorry ! Machine is Not Found"));
+                .orElseThrow(()->new MachineNotFound("sorry ! Machine  Not Found"));
+    }
+
+    @Override
+    public MachineEntity updateCompanyId(Long machineId, Long companyId) {
+        MachineEntity machine=machineRepository.findById(machineId).orElseThrow(()->new MachineNotFound("sorry ! Machine  Not Found"));
+        CompanyEntity company=companyRepository.findById(companyId).
+                orElseThrow(()->new CompanyNotFound("sorry ! Company  Not Found"));
+        machine.companyIdUpdate(company);
+        return machineRepository.save(machine);
     }
 
 

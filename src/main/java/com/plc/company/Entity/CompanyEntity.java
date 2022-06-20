@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plc.AuditingAndResponse.Audit;
 import com.plc.Machine.Entity.MachineEntity;
 import com.plc.user.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 @RequiredArgsConstructor
 @Table(name = "company_details")
 public class CompanyEntity extends Audit<String> {

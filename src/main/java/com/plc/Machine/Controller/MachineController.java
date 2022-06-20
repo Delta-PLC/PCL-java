@@ -34,7 +34,7 @@ public class MachineController {
 
         Connection con= DriverManager.getConnection(url, user, password);
         //System.out.println("connection done");
-        String select_sql= "select * from public.tblmachine_details;";
+        String select_sql= "select * from public.machine_name;";
         PreparedStatement pstn = con.prepareStatement(select_sql);
         System.out.println(pstn);
         ResultSet rs = pstn.executeQuery();
@@ -44,46 +44,43 @@ public class MachineController {
             while (rs.next()) {
 
                 int mid=rs.getInt("machine_id");
-//                String cby=rs.getString("created_by");
-//                String cdate=rs.getString("created_date");
-//                String mby=rs.getString("modified_by");
-//                String mdate=rs.getString("modified_date");
-                boolean active=rs.getBoolean("machine_active");
+                String cby=rs.getString("created_by");
+                String cdate=rs.getString("created_date");
+                String mby=rs.getString("modified_by");
+                String mdate=rs.getString("modified_date");
+                boolean active=rs.getBoolean("active");
                 int did=rs.getInt("dev_id");
                 String mip=rs.getString("machine_ip");
                 String mname=rs.getString("machine_name");
                 int mport=rs.getInt("machine_port");
-                String per=rs.getString("permissionn");
-                int cid=rs.getInt("c_id");
+                String per=rs.getString("permission");
 
                 System.out.println("machine_id: "+mid);
-//                System.out.println("created_by: "+cby);
-//                System.out.println("created_date: "+cdate);
-//                System.out.println("modified_by: "+mby);
-//                System.out.println("modified_date: "+mdate);
-                System.out.println("machine_active: "+active);
+                System.out.println("created_by: "+cby);
+                System.out.println("created_date: "+cdate);
+                System.out.println("modified_by: "+mby);
+                System.out.println("modified_date: "+mdate);
+                System.out.println("active: "+active);
                 System.out.println("dev_id: "+did);
                 System.out.println("machine_ip: "+mip);
                 System.out.println("machine_name: "+mname);
                 System.out.println("machine_port: "+mport);
                 System.out.println("permission: "+per);
-                System.out.println("cid: "+cid);
                 System.out.println("____________________________");
 
                 i++;
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("machine_id",mid);
-//                jsonObject.put("created_by",cby);
-//                jsonObject.put("created_date",cdate);
-//                jsonObject.put("modified_by",mby);
-//                jsonObject.put("modified_date",mdate);
+                jsonObject.put("created_by",cby);
+                jsonObject.put("created_date",cdate);
+                jsonObject.put("modified_by",mby);
+                jsonObject.put("modified_date",mdate);
                 jsonObject.put("active",active);
                 jsonObject.put("dev_id",did);
                 jsonObject.put("machine_ip",mip);
                 jsonObject.put("machine_name",mname);
                 jsonObject.put("machine_port",mport);
                 jsonObject.put("permission",per);
-                jsonObject.put("c_id",cid);
 
                 file.write(jsonObject.toJSONString());
 
@@ -112,7 +109,7 @@ public class MachineController {
 
         Connection con= DriverManager.getConnection(url, user, password);
         //System.out.println("connection done");
-        String select_sql= "select * from public.tblmachine_details;";
+        String select_sql= "select * from public.machine_name;";
         PreparedStatement pstn = con.prepareStatement(select_sql);
         System.out.println(pstn);
         ResultSet rs = pstn.executeQuery();
@@ -122,46 +119,44 @@ public class MachineController {
             while (rs.next()) {
 
                 int mid=rs.getInt("machine_id");
-//                String cby=rs.getString("created_by");
-//                String cdate=rs.getString("created_date");
-//                String mby=rs.getString("modified_by");
-//                String mdate=rs.getString("modified_date");
-                boolean active=rs.getBoolean("machine_active");
+                String cby=rs.getString("created_by");
+                String cdate=rs.getString("created_date");
+                String mby=rs.getString("modified_by");
+                String mdate=rs.getString("modified_date");
+                boolean active=rs.getBoolean("active");
                 int did=rs.getInt("dev_id");
                 String mip=rs.getString("machine_ip");
                 String mname=rs.getString("machine_name");
                 int mport=rs.getInt("machine_port");
-                String per=rs.getString("permissionn");
-                int cid=rs.getInt("c_id");
+                String per=rs.getString("permission");
 
                 System.out.println("machine_id: "+mid);
-//                System.out.println("created_by: "+cby);
-//                System.out.println("created_date: "+cdate);
-//                System.out.println("modified_by: "+mby);
-//                System.out.println("modified_date: "+mdate);
-                System.out.println("machine_active: "+active);
+                System.out.println("created_by: "+cby);
+                System.out.println("created_date: "+cdate);
+                System.out.println("modified_by: "+mby);
+                System.out.println("modified_date: "+mdate);
+                System.out.println("active: "+active);
                 System.out.println("dev_id: "+did);
                 System.out.println("machine_ip: "+mip);
                 System.out.println("machine_name: "+mname);
                 System.out.println("machine_port: "+mport);
                 System.out.println("permission: "+per);
-                System.out.println("cid: "+cid);
                 System.out.println("____________________________");
 
                 i++;
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("machine_id",mid);
-//                jsonObject.put("created_by",cby);
-//                jsonObject.put("created_date",cdate);
-//                jsonObject.put("modified_by",mby);
-//                jsonObject.put("modified_date",mdate);
-                jsonObject.put("machine_active",active);
+                jsonObject.put("created_by",cby);
+                jsonObject.put("created_date",cdate);
+                jsonObject.put("modified_by",mby);
+                jsonObject.put("modified_date",mdate);
+                jsonObject.put("active",active);
                 jsonObject.put("dev_id",did);
                 jsonObject.put("machine_ip",mip);
                 jsonObject.put("machine_name",mname);
                 jsonObject.put("machine_port",mport);
                 jsonObject.put("permission",per);
-                jsonObject.put("c_id",cid);
+
 
                 file.write(jsonObject.toJSONString());
 
