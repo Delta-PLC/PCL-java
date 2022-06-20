@@ -77,8 +77,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
-    @ExceptionHandler(TimeExtendException.class)
-    public ResponseEntity<?> handleTimeMismatch(TimeExtendException ex) {
+    @ExceptionHandler(CompanyNotFound.class)
+    public ResponseEntity<?> handleTimeMismatch(CompanyNotFound ex) {
         ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());
