@@ -78,5 +78,17 @@ public class MachineServiceImpl implements MachineService {
         return machineRepository.save(machine);
     }
 
+    @Override
+    public void removeCompanyInMachine(Long companyId, Long machineId) {
+        MachineEntity machine=machineRepository
+                .findById(machineId)
+                .orElseThrow(()->new MachineNotFound("sorry ! Machine  Not Found"));
+        CompanyEntity company=companyRepository
+                .findById(companyId)
+                .orElseThrow(()->new CompanyNotFound("sorry ! Company  Not Found"));
+        company.removeCompanyIdInMachine(machine);
+        companyRepository.save(company);
+    }
+
 
 }

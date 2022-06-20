@@ -215,5 +215,11 @@ public class MachineController {
         log.info("update data =>{}", machine);
         return new ResponseEntity<>(new MessageResponse("update successfully " + machine), HttpStatus.ACCEPTED);
     }
+    @DeleteMapping(value = "/{machineId}/update/{companyId}")
+    public ResponseEntity<?> companyRemoveIdMachine(@PathVariable Long machineId, @PathVariable Long companyId) {
+        machineServiceImpl.removeCompanyInMachine(machineId, companyId);
 
+        return new ResponseEntity<>(new MessageResponse("update successfully " +
+                machineId), HttpStatus.ACCEPTED);
+    }
 }

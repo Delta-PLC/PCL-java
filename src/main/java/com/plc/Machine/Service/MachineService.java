@@ -13,4 +13,5 @@ public interface MachineService {
     MachineEntity findById(Long machineId);
 
     MachineEntity updateCompanyId(Long machineId,Long companyId);
+    void removeCompanyInMachine(Long companyId,Long machineId);
 }

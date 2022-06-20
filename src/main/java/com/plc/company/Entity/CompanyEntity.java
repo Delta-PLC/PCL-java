@@ -36,5 +36,7 @@ public class CompanyEntity extends Audit<String> {
     private List<MachineEntity> machineEntityList;
 
 
-
+    public void removeCompanyIdInMachine(MachineEntity machine) {
+        machineEntityList.remove(machine);
+    }
 }
