@@ -25,7 +25,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/json")
-@CrossOrigin
 public class JsonController {
 
     public static final Logger log = LoggerFactory.getLogger(JsonController.class);
@@ -45,7 +44,7 @@ public class JsonController {
 
         Jsondata jsondata = new Jsondata();
         JSONParser parser = new JSONParser();
-        JSONArray jsonArray = (JSONArray) parser.parse(new FileReader("C:/Users/Endlos/Downloads/data.json"));
+        JSONArray jsonArray = (JSONArray) parser.parse(new FileReader("/home/endloss/Downloads/data.json"));
 
 
         int i = 1;
