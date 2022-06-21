@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/customerPlc/api")
 public class CustomerPlcController {
     private final CustomerServiceImpl customerServiceImpl;

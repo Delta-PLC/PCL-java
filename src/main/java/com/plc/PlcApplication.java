@@ -53,6 +53,7 @@ public class PlcApplication  implements ApplicationRunner {
 		Role roles1=new Role(Roles.ROLE_EMPLOYEE);
 		Role roles2=new Role(Roles.ROLE_MODERATOR);
 		Role roles3=new Role(Roles.ROLE_USER);
+		Role roles4=new Role(Roles.ROLE_COMPAYOWNER);
 
 
 
@@ -63,7 +64,7 @@ public class PlcApplication  implements ApplicationRunner {
 			roleRepository.save(roles1);
 			roleRepository.save(roles2);
 			roleRepository.save(roles3);
-
+			roleRepository.save(roles4);
 
 			user.getRoles().add(roleSuperadmin);
 			user.getRoles().add(roles);

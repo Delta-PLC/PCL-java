@@ -16,6 +16,7 @@ import java.util.List;
 @ToString
 @RequiredArgsConstructor
 @Table(name = "company_details")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CompanyEntity extends Audit<String> {
 
     @Id
