@@ -143,7 +143,8 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return new ResponseEntity<>(PageResponse.SuccessResponse(user),HttpStatus.CREATED);
+                //ResponseEntity.ok(new MessageResponse("User registered successfully!"+user));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.sql.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/machine/api")
 public class MachineController {
     private static final Logger log= LoggerFactory.getLogger(MachineController.class);
@@ -41,7 +42,7 @@ public class MachineController {
         ResultSet rs = pstn.executeQuery();
         int i=1;
         try {
-            FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
+            FileWriter file = new FileWriter("C:/Users/Endlos/Downloads/machine.json");
             while (rs.next()) {
 
                 int mid=rs.getInt("machine_id");
@@ -119,7 +120,7 @@ public class MachineController {
         ResultSet rs = pstn.executeQuery();
         int i=1;
         try {
-            FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
+            FileWriter file = new FileWriter("C:/Users/Endlos/Downloads/machine.json");
             while (rs.next()) {
 
                 int mid=rs.getInt("machine_id");
