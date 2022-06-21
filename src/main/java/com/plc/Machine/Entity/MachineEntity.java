@@ -38,4 +38,6 @@ public class MachineEntity extends Audit<String> {
     public void companyIdUpdate(CompanyEntity company) {
         this.companyEntityList=company;
     }
+
+
 }

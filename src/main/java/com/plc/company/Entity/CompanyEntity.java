@@ -31,10 +31,20 @@ public class CompanyEntity extends Audit<String> {
     @JsonIgnoreProperties(value = {"companyEntityData"})
     private List<User> userList;
 
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+
     @OneToMany(mappedBy = "companyEntityList",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"companyEntityList"})
     private List<MachineEntity> machineEntityList;
 
 
-
+    public void removeCompanyIdInMachine(MachineEntity machine) {
+        machineEntityList.remove(machine);
+    }
 }

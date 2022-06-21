@@ -205,5 +205,11 @@ public class MachineController {
         Object updateMachine=machineServiceImpl.Delete(machineId);
         return new ResponseEntity<>(PageResponse.SuccessResponse(updateMachine),HttpStatus.NO_CONTENT);
     }
+    @DeleteMapping(value = "/{machineId}/update/{companyId}")
+    public ResponseEntity<?> companyRemoveIdMachine(@PathVariable Long machineId, @PathVariable Long companyId) {
+        machineServiceImpl.removeCompanyInMachine(machineId, companyId);
 
+        return new ResponseEntity<>(new MessageResponse("update successfully " +
+                machineId), HttpStatus.ACCEPTED);
+    }
 }

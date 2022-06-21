@@ -11,4 +11,5 @@ public interface CustomerPlcService {
     CustomerPlc updateCustomerPlcData(Long customerPlcId,CustomerPlcSaveDto customerPlcSaveDto);
     List<?> findAllCustomerPlcData();
     void DeleteById(Long customerPlcId);
+
 }

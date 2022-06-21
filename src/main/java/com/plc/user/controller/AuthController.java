@@ -1,13 +1,16 @@
 package com.plc.user.controller;
 
+import com.plc.company.Entity.CompanyEntity;
+import com.plc.company.Repository.CompanyRepository;
+import com.plc.exception.ExceptionService.CompanyNotFound;
 import com.plc.exception.ExceptionService.RoleNotFound;
 import com.plc.exception.ExceptionService.UserNotFound;
-
 import com.plc.jwt.JwtUtils;
 import com.plc.payload.Request.LoginRequest;
 import com.plc.payload.Request.SignupRequest;
 import com.plc.payload.Response.JwtResponse;
 import com.plc.payload.Response.MessageResponse;
+import com.plc.payload.Response.PageResponse;
 import com.plc.secutiry.UserDetailsImpl;
 import com.plc.user.entity.Role;
 import com.plc.user.entity.Roles;
@@ -16,12 +19,12 @@ import com.plc.user.repository.RoleRepository;
 import com.plc.user.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -37,20 +40,25 @@ import java.util.stream.Collectors;
 public class AuthController {
 
     private final static Logger log= LoggerFactory.getLogger(AuthController.class);
+    private final CompanyRepository companyRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtils jwtUtils;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private JwtUtils jwtUtils;
+    public AuthController(CompanyRepository companyRepository, UserRepository userRepository, AuthenticationManager authenticationManager, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
+        this.companyRepository = companyRepository;
+        this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtils = jwtUtils;
+    }
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
        // log.info("Login Number {} ",loginRequest.getMobilenumber());
@@ -62,7 +70,7 @@ public class AuthController {
         String jwt = jwtUtils.generateJwtToken(authentication);
         // System.out.println(jwt);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         //System.out.println(userDetails.getId());
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(),
@@ -70,7 +78,7 @@ public class AuthController {
                 userDetails.getDatetime(), roles));
     }
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) throws Exception {
+    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
         }
@@ -142,6 +150,17 @@ public class AuthController {
     public ResponseEntity<User> FindById(@PathVariable Long id)  {
 
         return new ResponseEntity<> (userRepository.findById(id).orElseThrow(() -> new UserNotFound("user not found in this System")),HttpStatus.ACCEPTED);
+    }
+    @PutMapping("/{userId}/update/{companyId}")
+    public ResponseEntity<?> updateDat(@PathVariable Long userId,@PathVariable Long companyId)
+    {
+        User user=userRepository.findById(userId)
+                .orElseThrow(()-> new UserNotFound("user Not Found"));
+        CompanyEntity companyEntity=companyRepository.findById(companyId)
+                        .orElseThrow(()->new CompanyNotFound("company Not Found" +companyId));
+        user.updateCompanyId(companyEntity);
+        userRepository.save(user);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(user),HttpStatus.OK);
     }
 
 
