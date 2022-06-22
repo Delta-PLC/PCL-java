@@ -11,6 +11,7 @@ import com.plc.payload.Request.SignupRequest;
 import com.plc.payload.Response.JwtResponse;
 import com.plc.payload.Response.MessageResponse;
 import com.plc.payload.Response.PageResponse;
+import com.plc.plc.companyPlc.Entity.CompanyPlc;
 import com.plc.secutiry.UserDetailsImpl;
 import com.plc.user.entity.Role;
 import com.plc.user.entity.Roles;
@@ -162,6 +163,12 @@ public class AuthController {
         user.updateCompanyId(companyEntity);
         userRepository.save(user);
         return new ResponseEntity<>(PageResponse.SuccessResponse(user),HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        List<User> AllData = userRepository.findAll();
+        return new ResponseEntity<>(PageResponse.SuccessResponse(AllData), HttpStatus.OK);
     }
 
 

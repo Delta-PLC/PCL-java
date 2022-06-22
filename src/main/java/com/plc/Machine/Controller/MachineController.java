@@ -2,15 +2,20 @@ package com.plc.Machine.Controller;
 
 import com.plc.Machine.Dto.MachineSaveDto;
 import com.plc.Machine.Service.ServiceImpl.MachineServiceImpl;
+import com.plc.json.model.Jsondata;
 import com.plc.payload.Response.MessageResponse;
 import com.plc.payload.Response.PageResponse;
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
@@ -42,7 +47,7 @@ public class MachineController {
         ResultSet rs = pstn.executeQuery();
         int i=1;
         try {
-            FileWriter file = new FileWriter("C:/Users/Endlos/Downloads/machine.json");
+            FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
             while (rs.next()) {
 
                 int mid=rs.getInt("machine_id");
@@ -119,8 +124,13 @@ public class MachineController {
         System.out.println(pstn);
         ResultSet rs = pstn.executeQuery();
         int i=1;
+
+
         try {
-            FileWriter file = new FileWriter("C:/Users/Endlos/Downloads/machine.json");
+
+
+
+            FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
             while (rs.next()) {
 
                 int mid=rs.getInt("machine_id");
@@ -215,3 +225,4 @@ public class MachineController {
                 machineId), HttpStatus.ACCEPTED);
     }
 }
+

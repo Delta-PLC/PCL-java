@@ -149,7 +149,7 @@ public class PlcApplication  implements ApplicationRunner {
 					}
 					System.out.println("Hello World");
 				}
-			}, 0, 5000);
+			}, 0, 500000);
 
 	}
 
