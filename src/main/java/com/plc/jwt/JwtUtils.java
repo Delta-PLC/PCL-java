@@ -1,5 +1,6 @@
 package com.plc.jwt;
 
+import com.plc.exception.ExceptionService.JwtTokenExpiry;
 import com.plc.secutiry.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -62,6 +63,7 @@ public class JwtUtils {
             logger.error("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {
             logger.error("JWT token is expired: {}", e.getMessage());
+            throw new JwtTokenExpiry("token expired");
         } catch (UnsupportedJwtException e) {
             logger.error("JWT token is unsupported: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
