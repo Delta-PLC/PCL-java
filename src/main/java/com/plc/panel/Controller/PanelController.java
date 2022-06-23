@@ -1,7 +1,7 @@
-package com.plc.Panel.Controller;
+package com.plc.panel.Controller;
 
-import com.plc.Panel.Dto.PanelSaveDto;
-import com.plc.Panel.Service.ServiceImpl.PanelServiceImpl;
+import com.plc.panel.Dto.PanelSaveDto;
+import com.plc.panel.Service.ServiceImpl.PanelServiceImpl;
 import com.plc.payload.Response.MessageResponse;
 import com.plc.payload.Response.PageResponse;
 import net.minidev.json.JSONObject;

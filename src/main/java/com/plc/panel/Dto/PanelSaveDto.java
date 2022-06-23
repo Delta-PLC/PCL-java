@@ -1,4 +1,4 @@
-package com.plc.Panel.Dto;
+package com.plc.panel.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

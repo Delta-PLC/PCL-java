@@ -1,9 +1,9 @@
-package com.plc.Panel.Service.ServiceImpl;
+package com.plc.panel.Service.ServiceImpl;
 
-import com.plc.Panel.Dto.PanelSaveDto;
-import com.plc.Panel.Entity.PanelEntity;
-import com.plc.Panel.Repository.PanelRepository;
-import com.plc.Panel.Service.PanelService;
+import com.plc.panel.Dto.PanelSaveDto;
+import com.plc.panel.Entity.PanelEntity;
+import com.plc.panel.Repository.PanelRepository;
+import com.plc.panel.Service.PanelService;
 import com.plc.company.Entity.CompanyEntity;
 import com.plc.company.Repository.CompanyRepository;
 import com.plc.exception.ExceptionService.CompanyNotFound;

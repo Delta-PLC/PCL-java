@@ -2,6 +2,7 @@ package com.plc.plc.registerTypePlc.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plc.AuditingAndResponse.Audit;
+import com.plc.plc.AddPanelWithRegisterType.Entity.AddPanelWithRegisterType;
 import com.plc.plc.AddresRegisterAndPlc.Entity.AddresRegisterTypeEntity;
 import com.plc.plc.customerPlc.Entity.CustomerPlc;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class RegisterTypePlc extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long registerPlcId;
+
     private String plcRegister;
     private boolean active;
     @OneToMany(mappedBy = "registerTypePlc",cascade = CascadeType.ALL)
@@ -33,6 +35,9 @@ public class RegisterTypePlc extends Audit<String> {
     @JsonIgnoreProperties(value = {"registerPlcData"})
     private List<AddresRegisterTypeEntity> addresRegisterTypeList;
 
+    @OneToMany(mappedBy = "registerTypeData",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"registerTypeData"})
+    private List<AddPanelWithRegisterType> panelWithRegisterTypeList;
 
     @Override
     public String toString() {

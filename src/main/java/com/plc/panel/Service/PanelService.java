@@ -1,7 +1,7 @@
-package com.plc.Panel.Service;
+package com.plc.panel.Service;
 
-import com.plc.Panel.Dto.PanelSaveDto;
-import com.plc.Panel.Entity.PanelEntity;
+import com.plc.panel.Dto.PanelSaveDto;
+import com.plc.panel.Entity.PanelEntity;
 
 import java.util.List;
 
