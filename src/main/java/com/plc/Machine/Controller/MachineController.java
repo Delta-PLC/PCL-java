@@ -85,6 +85,7 @@ public class MachineController {
 //                jsonObject.put("modified_by",mby);
 //                jsonObject.put("modified_date",mdate);
                 jsonObject.put("machine_active",active);
+                // dev_id is device id(unit id in dataa.json file)
                 jsonObject.put("dev_id",did);
                 jsonObject.put("machine_ip",mip);
                 jsonObject.put("machine_name",mname);
