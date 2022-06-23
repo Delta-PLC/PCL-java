@@ -1,24 +1,16 @@
 package com.plc.json.controller;
 
+import com.plc.company.Entity.CompanyEntity;
 import com.plc.json.model.Jsondata;
 import com.plc.json.repository.JsonRepository;
 import com.plc.json.service.JsonService;
-import com.plc.payload.Response.MessageResponse;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
-import net.minidev.json.parser.ParseException;
-import org.hibernate.internal.util.ReflectHelper;
+import com.plc.payload.Response.PageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.*;
-import java.lang.reflect.Type;
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -55,6 +47,19 @@ public class JsonController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+//    @GetMapping("/latest")
+//    public Jsondata getlatestById() {
+//        Jsondata emp = JsonRepository.findTopByOrderByIdDesc();
+//        return emp;
+//    }
+
+    @GetMapping(value = "/latest")
+    public ResponseEntity<?> findTopByOrderById() {
+        Optional<?> ipData = Optional.ofNullable(jsonRepository.findTopByOrderByIdDesc());
+        return new ResponseEntity<>(PageResponse.SuccessResponse(ipData), HttpStatus.OK);
+    }
+
 
 }
 
