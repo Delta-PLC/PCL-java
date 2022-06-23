@@ -2,6 +2,7 @@ package com.plc.Machine.Controller;
 
 import com.plc.Machine.Dto.MachineSaveDto;
 import com.plc.Machine.Service.ServiceImpl.MachineServiceImpl;
+import com.plc.payload.Response.MessageResponse;
 import com.plc.payload.Response.PageResponse;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
@@ -38,7 +39,6 @@ public class MachineController {
         PreparedStatement pstn = con.prepareStatement(select_sql);
         System.out.println(pstn);
         ResultSet rs = pstn.executeQuery();
-        int i=1;
         try {
             FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
             while (rs.next()) {
@@ -70,7 +70,6 @@ public class MachineController {
                 System.out.println("c_id: "+cid);
                 System.out.println("____________________________");
 
-                i++;
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("machine_id",mid);
 //                jsonObject.put("created_by",cby);
@@ -116,7 +115,6 @@ public class MachineController {
         PreparedStatement pstn = con.prepareStatement(select_sql);
         System.out.println(pstn);
         ResultSet rs = pstn.executeQuery();
-        int i=1;
         try {
             FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
             while (rs.next()) {
@@ -148,7 +146,6 @@ public class MachineController {
                 System.out.println("c_id: "+cid);
                 System.out.println("____________________________");
 
-                i++;
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("machine_id",mid);
 //                jsonObject.put("created_by",cby);

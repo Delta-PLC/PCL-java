@@ -11,6 +11,5 @@ public interface CompanyService {
     CompanyEntity findByCompanyId(Long CompanyId);
     List<?> findCompanyDataAll();
     CompanyEntity updateCompanyData(Long CompanyId,CompanySaveDto companySaveDto);
-    void DeleteCompanyData
-            (Long CompanyId);
+    void DeleteCompanyData(Long CompanyId);
 }
