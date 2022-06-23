@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AddPlcRepository extends JpaRepository<AddPlc,Long> {
 
-    public AddPlc saveRegister(AddPlc addPlc);
-    public AddPlc findByAddPlcId(Long plcid);
+    AddPlc findByPlcid(Long plcid);
 }

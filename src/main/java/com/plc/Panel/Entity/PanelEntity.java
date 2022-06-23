@@ -1,4 +1,4 @@
-package com.plc.Machine.Entity;
+package com.plc.Panel.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plc.AuditingAndResponse.Audit;
@@ -16,7 +16,7 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "tblmachine_details")
-public class MachineEntity extends Audit<String> {
+public class PanelEntity extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long machine_id;
@@ -31,7 +31,7 @@ public class MachineEntity extends Audit<String> {
     @JsonIgnoreProperties(value = {"machineEntityList"})
     private CompanyEntity companyEntityList;
 
-    @OneToMany(mappedBy = "machineEntityData",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "panelEntityData",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"machineEntityData"})
     private List<CustomerPlc> customerPlcList;
 

@@ -25,6 +25,7 @@ public class CompanyPlcServiceImpl implements CompanyPlcService {
         companyPlc.setPlcName(companyPlcSaveDto.getPlcName());
         companyPlc.setPlcMode(companyPlcSaveDto.getPlcMode());
         companyPlc.setActive(companyPlcSaveDto.isActive());
+
         return companyPlcRepository.save(companyPlc);
     }
 

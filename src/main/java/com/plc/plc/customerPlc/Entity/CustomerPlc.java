@@ -1,7 +1,7 @@
 package com.plc.plc.customerPlc.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.plc.Machine.Entity.MachineEntity;
+import com.plc.Panel.Entity.PanelEntity;
 import com.plc.plc.MethodPlc.Entity.Method;
 import com.plc.plc.registerPlc.Entity.RegisterPlc;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class CustomerPlc {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "m_id"),name = "m_id",referencedColumnName = "machine_id")
     @JsonIgnoreProperties(value = "customerPlcList")
-    private MachineEntity machineEntityData;
+    private PanelEntity panelEntityData;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "plc_reg_id"),name = "plc_reg_id",referencedColumnName = "registerPlcId")

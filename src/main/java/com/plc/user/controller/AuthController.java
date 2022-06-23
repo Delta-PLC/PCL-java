@@ -62,7 +62,7 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-       // log.info("Login Number {} ",loginRequest.getMobilenumber());
+        log.info("Login Number {} ",loginRequest.getMobilenumber());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getMobilenumber(), loginRequest.getPassword()));
        // log.info("Login Number {} ",loginRequest.getMobilenumber());

@@ -63,7 +63,7 @@ public class PlcApplication  implements ApplicationRunner {
 						jsonArray = (JSONArray) parser.parse(new FileReader("/home/endloss/Downloads/data.json"));
 						int i = 1;
 						//   String n=null;
-						int count =1;
+							int count =1;
 						for (Object o : jsonArray) {
 
 							System.out.println("connection done--------------");
@@ -174,7 +174,7 @@ public class PlcApplication  implements ApplicationRunner {
 		Role roles1=new Role(Roles.ROLE_EMPLOYEE);
 		Role roles2=new Role(Roles.ROLE_MODERATOR);
 		Role roles3=new Role(Roles.ROLE_USER);
-		Role roles4=new Role(Roles.ROLE_COMPAYOWNER);
+		Role roles4=new Role(Roles.ROLE_COMPANYOWNER);
 
 
 
@@ -192,9 +192,6 @@ public class PlcApplication  implements ApplicationRunner {
 		//	log.info("{}",user.getRoles());
 
 			userRepository.save(user);
-
-
-
 		}
 	}
 }

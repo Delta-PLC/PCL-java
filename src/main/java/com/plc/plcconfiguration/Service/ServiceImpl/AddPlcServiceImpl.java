@@ -45,7 +45,7 @@ public class AddPlcServiceImpl implements AddPlcService {
 
     @Override
     public AddPlc findByAddPlcId(Long plcid) {
-        AddPlc addPlc = addPlcRepository.findByAddPlcId(plcid);
+        AddPlc addPlc = addPlcRepository.findByPlcid(plcid);
         return addPlc;
     }
 }
