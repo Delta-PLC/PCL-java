@@ -2,20 +2,26 @@ package com.plc.Machine.Controller;
 
 import com.plc.Machine.Dto.MachineSaveDto;
 import com.plc.Machine.Service.ServiceImpl.MachineServiceImpl;
+import com.plc.json.model.Jsondata;
 import com.plc.payload.Response.MessageResponse;
 import com.plc.payload.Response.PageResponse;
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/machine/api")
 public class MachineController {
     private static final Logger log= LoggerFactory.getLogger(MachineController.class);
@@ -39,6 +45,7 @@ public class MachineController {
         PreparedStatement pstn = con.prepareStatement(select_sql);
         System.out.println(pstn);
         ResultSet rs = pstn.executeQuery();
+        int i=1;
         try {
             FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
             while (rs.next()) {
@@ -70,6 +77,7 @@ public class MachineController {
                 System.out.println("c_id: "+cid);
                 System.out.println("____________________________");
 
+                i++;
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("machine_id",mid);
 //                jsonObject.put("created_by",cby);
@@ -77,6 +85,7 @@ public class MachineController {
 //                jsonObject.put("modified_by",mby);
 //                jsonObject.put("modified_date",mdate);
                 jsonObject.put("machine_active",active);
+                // dev_id is device id(unit id in dataa.json file)
                 jsonObject.put("dev_id",did);
                 jsonObject.put("machine_ip",mip);
                 jsonObject.put("machine_name",mname);
@@ -115,7 +124,13 @@ public class MachineController {
         PreparedStatement pstn = con.prepareStatement(select_sql);
         System.out.println(pstn);
         ResultSet rs = pstn.executeQuery();
+        int i=1;
+
+
         try {
+
+
+
             FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
             while (rs.next()) {
 
@@ -146,6 +161,7 @@ public class MachineController {
                 System.out.println("c_id: "+cid);
                 System.out.println("____________________________");
 
+                i++;
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("machine_id",mid);
 //                jsonObject.put("created_by",cby);
@@ -210,3 +226,4 @@ public class MachineController {
                 machineId), HttpStatus.ACCEPTED);
     }
 }
+

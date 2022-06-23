@@ -18,6 +18,7 @@ import java.util.List;
 public class CompanyPlc extends Audit<String > {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    // plc name , active , model number of plc columns are included int this entity class.
     private Long plcCompanyId;
     private String plcName;
     private String plcMode;
@@ -25,5 +26,6 @@ public class CompanyPlc extends Audit<String > {
     @OneToMany(mappedBy = "companyPlcData",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"companyPlcData"})
     private List<RegisterPlc> registerPlcsList;
+
 
 }
