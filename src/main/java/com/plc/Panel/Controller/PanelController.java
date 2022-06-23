@@ -1,21 +1,16 @@
-package com.plc.Machine.Controller;
+package com.plc.Panel.Controller;
 
-import com.plc.Machine.Dto.MachineSaveDto;
-import com.plc.Machine.Service.ServiceImpl.MachineServiceImpl;
-import com.plc.json.model.Jsondata;
+import com.plc.Panel.Dto.PanelSaveDto;
+import com.plc.Panel.Service.ServiceImpl.PanelServiceImpl;
 import com.plc.payload.Response.MessageResponse;
 import com.plc.payload.Response.PageResponse;
-import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
-import net.minidev.json.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
@@ -23,16 +18,16 @@ import java.sql.*;
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/machine/api")
-public class MachineController {
-    private static final Logger log= LoggerFactory.getLogger(MachineController.class);
-    private final MachineServiceImpl machineServiceImpl;
+public class PanelController {
+    private static final Logger log= LoggerFactory.getLogger(PanelController.class);
+    private final PanelServiceImpl machineServiceImpl;
 
-    public MachineController(MachineServiceImpl machineServiceImpl) {
+    public PanelController(PanelServiceImpl machineServiceImpl) {
         this.machineServiceImpl = machineServiceImpl;
     }
     @PostMapping
-    public ResponseEntity<?> saveMachine(@RequestBody MachineSaveDto machineSaveDto) throws SQLException {
-        Object machineData=machineServiceImpl.save(machineSaveDto);
+    public ResponseEntity<?> saveMachine(@RequestBody PanelSaveDto panelSaveDto) throws SQLException {
+        Object machineData=machineServiceImpl.save(panelSaveDto);
 
 
         String url = "jdbc:postgresql://localhost:5432/plc_project";
@@ -110,9 +105,9 @@ public class MachineController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(machineData), HttpStatus.CREATED);
     }
     @PutMapping(value = "/{machineId}")
-    public ResponseEntity<?> updateMachine(@PathVariable Long machineId, @RequestBody MachineSaveDto machineSaveDto) throws SQLException {
+    public ResponseEntity<?> updateMachine(@PathVariable Long machineId, @RequestBody PanelSaveDto panelSaveDto) throws SQLException {
 
-        Object updateMachine=machineServiceImpl.update(machineId,machineSaveDto);
+        Object updateMachine=machineServiceImpl.update(machineId, panelSaveDto);
 
         String url = "jdbc:postgresql://localhost:5432/plc_project";
         String user = "postgres";

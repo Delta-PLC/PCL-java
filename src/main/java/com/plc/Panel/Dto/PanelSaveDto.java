@@ -1,4 +1,4 @@
-package com.plc.Machine.Dto;
+package com.plc.Panel.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class MachineSaveDto {
+public class PanelSaveDto {
     private Long machine_id;
     private String machineName;
     private String machineIp;

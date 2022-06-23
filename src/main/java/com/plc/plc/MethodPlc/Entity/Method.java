@@ -20,7 +20,7 @@ import java.util.List;
 public class Method  extends Audit<String> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long methodId;
     private String methodName;
     private boolean active;

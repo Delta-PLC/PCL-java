@@ -2,7 +2,7 @@ package com.plc.company.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plc.AuditingAndResponse.Audit;
-import com.plc.Machine.Entity.MachineEntity;
+import com.plc.Panel.Entity.PanelEntity;
 import com.plc.user.entity.User;
 import lombok.*;
 
@@ -42,10 +42,10 @@ public class CompanyEntity extends Audit<String> {
 
     @OneToMany(mappedBy = "companyEntityList",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"companyEntityList"})
-    private List<MachineEntity> machineEntityList;
+    private List<PanelEntity> panelEntityList;
 
 
-    public void removeCompanyIdInMachine(MachineEntity machine) {
-        machineEntityList.remove(machine);
+    public void removeCompanyIdInMachine(PanelEntity machine) {
+        panelEntityList.remove(machine);
     }
 }

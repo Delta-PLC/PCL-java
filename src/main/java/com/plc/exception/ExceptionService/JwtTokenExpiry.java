@@ -4,16 +4,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
-public class Fileincorrect extends RuntimeException {
-    public Fileincorrect() {
+public class JwtTokenExpiry extends RuntimeException {
+    public JwtTokenExpiry() {
         super();
     }
 
-    public Fileincorrect(String msg) {
+    public JwtTokenExpiry(String msg) {
         super(msg);
     }
 
-    public Fileincorrect(String msg, Throwable cause) {
+    public JwtTokenExpiry(String msg, Throwable cause) {
         super(msg, cause);
     }
 

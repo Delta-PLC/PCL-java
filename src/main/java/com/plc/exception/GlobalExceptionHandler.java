@@ -22,8 +22,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionMOdel.setTimestamp((String.valueOf(LocalDateTime.now())));
         return new ResponseEntity<>(exceptionMOdel, HttpStatus.NOT_ACCEPTABLE);
     }
-    @ExceptionHandler(Fileincorrect.class)
-    public ResponseEntity<?> handleFileAreIncorrect(Fileincorrect ex) {
+    @ExceptionHandler(JwtTokenExpiry.class)
+    public ResponseEntity<?> handleFileAreIncorrect(JwtTokenExpiry ex) {
         ExceptionMOdel exceptionMOdel = new ExceptionMOdel();
         exceptionMOdel.setDetails(ex.getClass().getCanonicalName());
         exceptionMOdel.setDeveloperMessage(ex.fillInStackTrace().getMessage());

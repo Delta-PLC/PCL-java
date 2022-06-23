@@ -62,7 +62,7 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-       // log.info("Login Number {} ",loginRequest.getMobilenumber());
+        log.info("Login Number {} ",loginRequest.getMobilenumber());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getMobilenumber(), loginRequest.getPassword()));
        // log.info("Login Number {} ",loginRequest.getMobilenumber());
@@ -92,9 +92,10 @@ public class AuthController {
         User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
                 passwordEncoder.encode(signUpRequest.getPassword())
                 , signUpRequest.getMobileNumber(), signUpRequest.getCity(), signUpRequest.getAddress());
-
+        log.info("user data {} => ",user);
         Set<String> strRoles = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();
+        log.info("roles data {} => ",roles);
         System.out.println(signUpRequest.getRoles());
         if (strRoles == null) {
             Role moderatorRole = roleRepository.findByName(Roles.ROLE_MODERATOR)
@@ -125,8 +126,8 @@ public class AuthController {
                         roles.add(superRole);
                         System.out.println("superRole values");
                         break;
-                    case "COMPABYADMIN":
-                        Role companyAdminRole = roleRepository.findByName(Roles.ROLE_COMPAYOWNER)
+                    case "COMPANYOWNER":
+                        Role companyAdminRole = roleRepository.findByName(Roles.ROLE_COMPANYOWNER)
                                 .orElseThrow(() -> new RoleNotFound("Error: Role is not found."));
                         roles.add(companyAdminRole);
                         System.out.println("companyAdminRole values");
@@ -150,7 +151,6 @@ public class AuthController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<User> FindById(@PathVariable Long id)  {
-
         return new ResponseEntity<> (userRepository.findById(id).orElseThrow(() -> new UserNotFound("user not found in this System")),HttpStatus.ACCEPTED);
     }
     @PutMapping("/{userId}/update/{companyId}")
