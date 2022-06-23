@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plc.AuditingAndResponse.Audit;
 import com.plc.company.Entity.CompanyEntity;
 import com.plc.plc.customerPlc.Entity.CustomerPlc;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,7 +16,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
-@ToString
 @Entity
 @Table(name = "tblmachine_details")
 public class PanelEntity extends Audit<String> {
@@ -39,5 +41,15 @@ public class PanelEntity extends Audit<String> {
         this.companyEntityList=company;
     }
 
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "machine_id = " + machine_id + ", " +
+                "machineName = " + machineName + ", " +
+                "machineIp = " + machineIp + ", " +
+                "machinePort = " + machinePort + ", " +
+                "devId = " + devId + ", " +
+                "permissionn = " + permissionn + ", " +
+                "machineActive = " + machineActive + ")";
+    }
 }

@@ -3,7 +3,6 @@ package com.plc.plc.companyPlc.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plc.AuditingAndResponse.Audit;
 import com.plc.plc.AddresRegisterAndPlc.Entity.AddresRegisterTypeEntity;
-import com.plc.plc.registerPlc.Entity.RegisterPlc;
 import lombok.*;
 
 import javax.persistence.*;

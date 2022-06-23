@@ -1,4 +1,4 @@
-package com.plc.plc.registerPlc.Dto;
+package com.plc.plc.registerTypePlc.Dto;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class RegisterPlcSaveDto {
+public class RegisterTypePlcSaveDto {
     private String plcRegister;
     private boolean active;
 }

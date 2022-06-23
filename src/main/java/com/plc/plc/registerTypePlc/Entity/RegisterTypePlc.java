@@ -1,11 +1,13 @@
-package com.plc.plc.registerPlc.Entity;
+package com.plc.plc.registerTypePlc.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plc.AuditingAndResponse.Audit;
 import com.plc.plc.AddresRegisterAndPlc.Entity.AddresRegisterTypeEntity;
-import com.plc.plc.companyPlc.Entity.CompanyPlc;
 import com.plc.plc.customerPlc.Entity.CustomerPlc;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,29 +16,29 @@ import java.util.List;
 @RequiredArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
-@Table(name = "tblplcreg")
+@Table(name = "tbl_plcreg_type")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class RegisterPlc extends Audit<String> {
+public class RegisterTypePlc extends Audit<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long registerPlcId;
     private String plcRegister;
     private boolean active;
-    @OneToMany(mappedBy = "registerPlc",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "registerTypePlc",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"registerPlc"})
     private List<CustomerPlc> customerPlcData;
 
-    @OneToMany(mappedBy = "registerPlcData",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "registerTypePlcData",cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = {"registerPlcData"})
     private List<AddresRegisterTypeEntity> addresRegisterTypeList;
 
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(foreignKey = @ForeignKey(name = "plc_id"),name = "plc_id",referencedColumnName = "plcCompanyId")
-//    @JsonIgnoreProperties(value = {"registerPlcsList"})
-//    private CompanyPlc companyPlcData;
-
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "registerPlcId = " + registerPlcId + ", " +
+                "plcRegister = " + plcRegister + ", " +
+                "active = " + active + ")";
+    }
 }

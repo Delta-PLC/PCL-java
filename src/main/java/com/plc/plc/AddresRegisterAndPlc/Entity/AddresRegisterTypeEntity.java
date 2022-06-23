@@ -2,7 +2,7 @@ package com.plc.plc.AddresRegisterAndPlc.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plc.plc.companyPlc.Entity.CompanyPlc;
-import com.plc.plc.registerPlc.Entity.RegisterPlc;
+import com.plc.plc.registerTypePlc.Entity.RegisterTypePlc;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,7 +25,7 @@ public class AddresRegisterTypeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "reg_id"),name = "reg_id",referencedColumnName = "registerPlcId")
     @JsonIgnoreProperties(value = {"addresRegisterTypeList","customerPlcData"})
-    private RegisterPlc registerPlcData;
+    private RegisterTypePlc registerTypePlcData;
 
 
     @ManyToOne(fetch = FetchType.LAZY)

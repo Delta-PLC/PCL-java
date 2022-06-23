@@ -3,7 +3,7 @@ package com.plc.plc.customerPlc.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plc.Panel.Entity.PanelEntity;
 import com.plc.plc.MethodPlc.Entity.Method;
-import com.plc.plc.registerPlc.Entity.RegisterPlc;
+import com.plc.plc.registerTypePlc.Entity.RegisterTypePlc;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class CustomerPlc {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "plc_reg_id"),name = "plc_reg_id",referencedColumnName = "registerPlcId")
     @JsonIgnoreProperties(value = {"customerPlcData"})
-    private RegisterPlc registerPlc;
+    private RegisterTypePlc registerTypePlc;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "meth_id"),name = "meth_id",referencedColumnName = "methodId")
