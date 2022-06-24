@@ -61,4 +61,18 @@ public class CompanyPlcServiceImpl implements CompanyPlcService {
        }
         return companyPlcRepository.save(companyPlc);
     }
+
+    @Override
+    public List<String> findDistinctByPlcName() {
+        return this.companyPlcRepository.findDistinctByPlcName();
+    }
+
+    @Override
+    public List<CompanyPlc> findByPlcName(String name) {
+        return this.companyPlcRepository
+                .findByPlcName(name)
+                .stream()
+                .sorted(Comparator.comparing(CompanyPlc::getPlcName))
+                .collect(Collectors.toList());
+    }
 }

@@ -33,7 +33,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String mobileNumber = jwtUtils.getUserNameFromJwtToken(jwt);
-                logger.error("Mobile Number: {}", mobileNumber);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(mobileNumber);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());

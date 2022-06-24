@@ -1,8 +1,10 @@
-package com.plc.Panel.Entity;
+package com.plc.panel.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plc.AuditingAndResponse.Audit;
 import com.plc.company.Entity.CompanyEntity;
+import com.plc.plc.AddPanelWithRegisterType.Entity.AddPanelWithRegisterType;
+import com.plc.plc.companyPlc.Entity.CompanyPlc;
 import com.plc.plc.customerPlc.Entity.CustomerPlc;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,9 +20,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "tblmachine_details")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PanelEntity extends Audit<String> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long machine_id;
     private String machineName;
     private String machineIp;
@@ -37,6 +40,13 @@ public class PanelEntity extends Audit<String> {
     @JsonIgnoreProperties(value = {"machineEntityData"})
     private List<CustomerPlc> customerPlcList;
 
+    @OneToMany(mappedBy = "paneldata",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"paneldata"})
+    private List<AddPanelWithRegisterType> addPanelWithRegisterTypeList;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "plc_id_"),name = "plc_id_",referencedColumnName =  "plcCompanyId")
+    @JsonIgnoreProperties(value = {"panelEntityList","addresRegisterTypeDataList"})
+    private CompanyPlc companyPlcdata;
     public void companyIdUpdate(CompanyEntity company) {
         this.companyEntityList=company;
     }

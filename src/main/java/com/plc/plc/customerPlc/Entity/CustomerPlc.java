@@ -1,7 +1,7 @@
 package com.plc.plc.customerPlc.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.plc.Panel.Entity.PanelEntity;
+import com.plc.panel.Entity.PanelEntity;
 import com.plc.plc.MethodPlc.Entity.Method;
 import com.plc.plc.registerTypePlc.Entity.RegisterTypePlc;
 import lombok.AllArgsConstructor;

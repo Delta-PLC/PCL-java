@@ -1,5 +1,6 @@
-package com.plc.Panel.Dto;
+package com.plc.panel.Dto;
 
+import com.plc.company.Entity.CompanyEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,4 +18,5 @@ public class PanelSaveDto {
     private int devId;
     private String permissionn;
     private boolean machineActive;
+    private CompanyEntity company;
 }

@@ -38,6 +38,17 @@ public class CompanyPlcController {
         List<CompanyPlc> AllData = companyPlcServiceImpl.findAll();
         return new ResponseEntity<>(PageResponse.SuccessResponse(AllData), HttpStatus.OK);
     }
+    @GetMapping(value = "/distinct")
+    public ResponseEntity<?> getAllDistinctByPlcName() {
+        List<String > AllData = companyPlcServiceImpl.findDistinctByPlcName();
+        return new ResponseEntity<>(PageResponse.SuccessResponse(AllData), HttpStatus.OK);
+    }
+    @GetMapping(value = "/findByPlcName")
+    public ResponseEntity<?> getAllPlcName(@RequestParam String name) {
+        List<CompanyPlc> AllData = companyPlcServiceImpl.findByPlcName(name);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(AllData), HttpStatus.OK);
+    }
+
     @DeleteMapping(value = "/{plcId}")
     public ResponseEntity<?> dataDeleteById(@PathVariable Long plcId)
     {

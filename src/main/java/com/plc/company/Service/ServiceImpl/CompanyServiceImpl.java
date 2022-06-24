@@ -28,6 +28,7 @@ public class CompanyServiceImpl implements CompanyService {
         companyEntity.setCompanyNumber(companySaveDto.getCompanyNumber());
         companyEntity.setCompanyGstNumber(companySaveDto.getCompanyGstNumber());
         companyEntity.setCompanyActive(companySaveDto.isCompanyActive());
+        //companyEntity.getPanelEntityList().add(companySaveDto.getPanelEntity());
         return companyRepository.save(companyEntity);
     }
 

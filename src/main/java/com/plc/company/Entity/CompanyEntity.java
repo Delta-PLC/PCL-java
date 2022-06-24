@@ -2,7 +2,7 @@ package com.plc.company.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.plc.AuditingAndResponse.Audit;
-import com.plc.Panel.Entity.PanelEntity;
+import com.plc.panel.Entity.PanelEntity;
 import com.plc.user.entity.User;
 import lombok.*;
 
