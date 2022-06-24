@@ -44,8 +44,8 @@ public class CompanyPlcController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(AllData), HttpStatus.OK);
     }
     @GetMapping(value = "/findByPlcName")
-    public ResponseEntity<?> getAllPlcName() {
-        List<CompanyPlc> AllData = companyPlcServiceImpl.findByPlcName();
+    public ResponseEntity<?> getAllPlcName(@RequestParam String name) {
+        List<CompanyPlc> AllData = companyPlcServiceImpl.findByPlcName(name);
         return new ResponseEntity<>(PageResponse.SuccessResponse(AllData), HttpStatus.OK);
     }
 

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "address/api")
 @CrossOrigin
@@ -30,5 +32,11 @@ public class AddressController {
     public ResponseEntity<?> findById(@PathVariable Long aId)
     {
         return new ResponseEntity<>(addRessSerivceImpl.findById(aId),HttpStatus.OK);
+    }
+    @GetMapping(value = "/{comapnayPlcId}")
+    public ResponseEntity<?> findByCompanyPlcId(@PathVariable Long comapnayPlcId)
+    {
+        List<?> data=addRessSerivceImpl.findByCompanyPlcDataPlcCompanyId(comapnayPlcId);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
     }
 }

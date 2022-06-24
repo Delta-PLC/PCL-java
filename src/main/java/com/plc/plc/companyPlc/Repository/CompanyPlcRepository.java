@@ -9,5 +9,5 @@ import java.util.List;
 public interface CompanyPlcRepository extends JpaRepository<CompanyPlc,Long> {
     @Query("select DISTINCT a.plcName from CompanyPlc a")
     List<String> findDistinctByPlcName();
-    List<CompanyPlc> findByPlcName();
+    List<CompanyPlc> findByPlcName(String name);
 }

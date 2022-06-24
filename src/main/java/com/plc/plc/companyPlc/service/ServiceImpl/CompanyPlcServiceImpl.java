@@ -68,9 +68,9 @@ public class CompanyPlcServiceImpl implements CompanyPlcService {
     }
 
     @Override
-    public List<CompanyPlc> findByPlcName() {
+    public List<CompanyPlc> findByPlcName(String name) {
         return this.companyPlcRepository
-                .findByPlcName()
+                .findByPlcName(name)
                 .stream()
                 .sorted(Comparator.comparing(CompanyPlc::getPlcName))
                 .collect(Collectors.toList());
