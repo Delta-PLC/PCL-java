@@ -19,11 +19,8 @@ public interface JsonRepository extends JpaRepository<Jsondata,Integer> {
     Optional<?> findById(UUID id);
 
     @Query(value = "SELECT id,actual_timer,ip_address,set_timer,status FROM public.json_data ORDER BY id DESC limit 1", nativeQuery = true)
-    //List<?> findTopByOrderByIdDesc();
-    //Jsondata findTopByOrderByIdDesc(@Param("id")UUID id);
     Jsondata findTopByOrderByIdDesc();
     @Query("select j from Jsondata  j where  j.ipAddress=:ipAddress")
     List<?> findByIpAddress(String ipAddress);
-
 
 }
