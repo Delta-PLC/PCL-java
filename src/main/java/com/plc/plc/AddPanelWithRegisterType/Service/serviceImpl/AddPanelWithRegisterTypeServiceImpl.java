@@ -35,4 +35,12 @@ public class AddPanelWithRegisterTypeServiceImpl implements AddPanelWithRegister
                 .sorted(Comparator.comparing(AddPanelWithRegisterType::getId))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<AddPanelWithRegisterType> findByPanelDataAndRegisterType(Long machine_id, Long registerPlcId) {
+        return this.findByPanelDataAndRegisterType(machine_id, registerPlcId)
+                .stream()
+                .sorted(Comparator.comparing(AddPanelWithRegisterType::getId))
+                .collect(Collectors.toList());
+    }
 }

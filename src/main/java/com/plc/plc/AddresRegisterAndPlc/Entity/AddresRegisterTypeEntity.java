@@ -1,11 +1,13 @@
 package com.plc.plc.AddresRegisterAndPlc.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.plc.plc.AddPanelWithRegisterType.Entity.AddPanelWithRegisterType;
 import com.plc.plc.companyPlc.Entity.CompanyPlc;
 import com.plc.plc.registerTypePlc.Entity.RegisterTypePlc;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,6 +34,10 @@ public class AddresRegisterTypeEntity {
     @JsonIgnoreProperties(value = {"addresRegisterTypeDataList","panelEntityList"})
     private CompanyPlc companyPlcData;
 
+
+    @OneToMany(mappedBy = "registerTypeDataList",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = "registerTypeDataList")
+    private List<AddPanelWithRegisterType> addPanelWithRegisterTypeData;
     @Override
     public String toString() {
         return "AddresRegisterTypeEntity{" +

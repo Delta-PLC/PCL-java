@@ -8,5 +8,7 @@ public interface AddPanelWithRegisterTypeService {
     AddPanelWithRegisterType saveData(AddPanelWithRegisterType addPanelWithRegisterType);
     AddPanelWithRegisterType findById(Long id);
     List<AddPanelWithRegisterType> findAll();
+    List<AddPanelWithRegisterType>  findByPanelDataAndRegisterType(Long machine_id,Long registerPlcId);
+
 
 }

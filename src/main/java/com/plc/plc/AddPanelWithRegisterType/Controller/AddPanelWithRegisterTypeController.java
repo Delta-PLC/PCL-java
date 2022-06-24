@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/panelWithRegister/api")
@@ -27,4 +29,10 @@ public class AddPanelWithRegisterTypeController {
         AddPanelWithRegisterType data=this.addPanelWithRegisterTypeServiceimpl.findById(id);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
     }
+    @GetMapping(value = "/{panelId}/registerType/{registerId}")
+    public ResponseEntity<?> findByPanelIdAndRegisterId(@PathVariable Long panelId, @PathVariable Long registerId)
+    {
+        List<?> data=this.addPanelWithRegisterTypeServiceimpl.findByPanelDataAndRegisterType(panelId,registerId);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
+}
 }

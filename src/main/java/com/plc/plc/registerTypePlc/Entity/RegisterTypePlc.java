@@ -35,9 +35,7 @@ public class RegisterTypePlc extends Audit<String> {
     @JsonIgnoreProperties(value = {"registerPlcData"})
     private List<AddresRegisterTypeEntity> addresRegisterTypeList;
 
-    @OneToMany(mappedBy = "registerTypeData",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"registerTypeData"})
-    private List<AddPanelWithRegisterType> panelWithRegisterTypeList;
+
 
     @Override
     public String toString() {
