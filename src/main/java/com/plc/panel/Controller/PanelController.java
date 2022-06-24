@@ -27,8 +27,8 @@ public class PanelController {
         this.machineServiceImpl = machineServiceImpl;
     }
     @PostMapping
-    public ResponseEntity<?> saveMachine(@RequestBody PanelEntity panelEntity) throws SQLException {
-        Object machineData=machineServiceImpl.save(panelEntity);
+    public ResponseEntity<?> saveMachine(@RequestBody PanelSaveDto panelSaveDto) throws SQLException {
+        Object machineData=machineServiceImpl.save(panelSaveDto);
 
 
         String url = "jdbc:postgresql://localhost:5432/plc_project";
@@ -36,7 +36,6 @@ public class PanelController {
         String password = "postgres";
 
         Connection con= DriverManager.getConnection(url, user, password);
-        //System.out.println("connection done");
         String select_sql= "select * from public.tblmachine_details;";
         PreparedStatement pstn = con.prepareStatement(select_sql);
         System.out.println(pstn);

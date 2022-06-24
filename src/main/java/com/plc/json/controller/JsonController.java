@@ -36,6 +36,12 @@ public class JsonController {
         log.info("Data", jsonRepository.findAll());
         return ResponseEntity.ok(jsonRepository.findAll());
     }
+    @GetMapping(value = "/ip")
+    public ResponseEntity<?> findByIp(@RequestParam String ip)
+    {
+        List<?> data=jsonRepository.findByIpAddress(ip);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
+    }
 
 
 

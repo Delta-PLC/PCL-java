@@ -18,5 +18,5 @@ public class PanelSaveDto {
     private int devId;
     private String permissionn;
     private boolean machineActive;
-    private CompanyEntity company;
+    private CompanyEntity companyEntityList;
 }

@@ -25,5 +25,8 @@ public class JsonService {
         return jsonRepository.saveAll(jsondataList);
     }
 
-
+    public List<?> findByIpAddress(String ip)
+    {
+        return jsonRepository.findByIpAddress(ip);
+    }
 }

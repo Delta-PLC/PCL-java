@@ -24,8 +24,15 @@ public class PanelServiceImpl implements PanelService {
     }
 
     @Override
-    public PanelEntity save(PanelEntity panelEntity) {
-        Optional<CompanyEntity> company=companyRepository.findById(panelEntity.getCompanyEntityList().getCompany_id());
+    public PanelEntity save(PanelSaveDto panelSaveDto) {
+        Optional<CompanyEntity> company=companyRepository.findById(panelSaveDto.getCompanyEntityList().getCompany_id());
+        PanelEntity panelEntity=new PanelEntity();
+        panelEntity.setMachineName(panelSaveDto.getMachineName());
+        panelEntity.setMachineIp(panelSaveDto.getMachineIp());
+        panelEntity.setMachinePort(panelSaveDto.getMachinePort());
+        panelEntity.setDevId(panelSaveDto.getDevId());
+        panelEntity.setPermissionn(panelSaveDto.getPermissionn());
+        panelEntity.setMachineActive(panelSaveDto.isMachineActive());
         panelEntity.setCompanyEntityList(company.get());
         return panelRepository.save(panelEntity);
     }
@@ -84,6 +91,11 @@ public class PanelServiceImpl implements PanelService {
                 .orElseThrow(()->new CompanyNotFound("sorry ! Company  Not Found"));
         company.removeCompanyIdInMachine(machine);
         companyRepository.save(company);
+    }
+
+    @Override
+    public List<PanelEntity> findByIp(String machineIP) {
+        return null;
     }
 
 
