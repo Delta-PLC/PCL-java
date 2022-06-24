@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "company/api")
+@RequestMapping(value = "/company/api")
 public class CompanyController {
     private final CompanyServiceImpl companyServiceImpl;
 

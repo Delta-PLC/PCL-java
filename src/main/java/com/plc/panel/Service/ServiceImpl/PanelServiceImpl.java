@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 @Service
 public class PanelServiceImpl implements PanelService {
@@ -23,14 +24,9 @@ public class PanelServiceImpl implements PanelService {
     }
 
     @Override
-    public PanelEntity save(PanelSaveDto panelSaveDto) {
-        PanelEntity panelEntity = new PanelEntity();
-        panelEntity.setMachineName(panelSaveDto.getMachineName());
-        panelEntity.setMachineIp(panelSaveDto.getMachineIp());
-        panelEntity.setMachinePort(panelSaveDto.getMachinePort());
-        panelEntity.setDevId(panelSaveDto.getDevId());
-        panelEntity.setPermissionn(panelSaveDto.getPermissionn());
-        panelEntity.setMachineActive(panelSaveDto.isMachineActive());
+    public PanelEntity save(PanelEntity panelEntity) {
+        Optional<CompanyEntity> company=companyRepository.findById(panelEntity.getCompanyEntityList().getCompany_id());
+        panelEntity.setCompanyEntityList(company.get());
         return panelRepository.save(panelEntity);
     }
 

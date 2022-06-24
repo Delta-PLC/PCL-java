@@ -26,7 +26,9 @@ public class AddPanelWithRegisterType {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "add_reg_id"),name = "add_reg_id",referencedColumnName = "add_reg_id")
-    @JsonIgnoreProperties(value = {"addresRegisterTypeList","customerPlcData","panelWithRegisterTypeList","addPanelWithRegisterTypeData"})
+    @JsonIgnoreProperties(value = {"addresRegisterTypeList","customerPlcData",
+                                    "companyPlcData",
+                                "panelWithRegisterTypeList","addPanelWithRegisterTypeData"})
     private AddresRegisterTypeEntity registerTypeDataList;
 
 

@@ -6,7 +6,7 @@ import com.plc.panel.Entity.PanelEntity;
 import java.util.List;
 
 public interface PanelService {
-    PanelEntity save(PanelSaveDto panelSaveDto);
+    PanelEntity save(PanelEntity panelEntity);
     PanelEntity update (Long machineId, PanelSaveDto panelSaveDto);
     Object Delete(Long machineId);
     List<PanelEntity> findAll();

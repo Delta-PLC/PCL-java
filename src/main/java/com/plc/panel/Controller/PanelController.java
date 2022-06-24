@@ -1,6 +1,7 @@
 package com.plc.panel.Controller;
 
 import com.plc.panel.Dto.PanelSaveDto;
+import com.plc.panel.Entity.PanelEntity;
 import com.plc.panel.Service.ServiceImpl.PanelServiceImpl;
 import com.plc.payload.Response.MessageResponse;
 import com.plc.payload.Response.PageResponse;
@@ -26,8 +27,8 @@ public class PanelController {
         this.machineServiceImpl = machineServiceImpl;
     }
     @PostMapping
-    public ResponseEntity<?> saveMachine(@RequestBody PanelSaveDto panelSaveDto) throws SQLException {
-        Object machineData=machineServiceImpl.save(panelSaveDto);
+    public ResponseEntity<?> saveMachine(@RequestBody PanelEntity panelEntity) throws SQLException {
+        Object machineData=machineServiceImpl.save(panelEntity);
 
 
         String url = "jdbc:postgresql://localhost:5432/plc_project";
