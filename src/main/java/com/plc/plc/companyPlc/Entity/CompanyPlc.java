@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
-@ToString
 @Entity
 @Table(name = "plc_company")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -34,5 +33,19 @@ public class  CompanyPlc extends Audit<String > {
     @JsonIgnoreProperties(value = {"companyPlcdata"})
     private List<PanelEntity> panelEntityList;
 
+    public Long getPlcCompanyId() {
+        return plcCompanyId;
+    }
 
+    public void setPlcCompanyId(Long plcCompanyId) {
+        this.plcCompanyId = plcCompanyId;
+    }
+
+    public String getPlcName() {
+        return plcName;
+    }
+
+    public void setPlcName(String plcName) {
+        this.plcName = plcName;
+    }
 }

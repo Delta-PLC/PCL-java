@@ -57,7 +57,7 @@ public class PlcApplication  implements ApplicationRunner {
 					JSONParser parser = new JSONParser();
 					JSONArray jsonArray = null;
 					try {
-						jsonArray = (JSONArray) parser.parse(new FileReader("/home/endloss/Downloads/data.json"));
+						jsonArray = (JSONArray) parser.parse(new FileReader("C:/Users/Endlos/Downloads/data.json"));
 						int i = 1;
 						//   String n=null;
 							int count =1;

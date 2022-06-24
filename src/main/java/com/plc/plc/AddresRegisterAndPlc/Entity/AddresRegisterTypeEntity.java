@@ -14,7 +14,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "addres_regisater_type")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@ToString
 public class AddresRegisterTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
