@@ -2,8 +2,6 @@ package com.plc;
 
 import com.plc.json.model.Jsondata;
 import com.plc.json.repository.JsonRepository;
-import com.plc.plcconfiguration.Entity.RegisterType;
-import com.plc.plcconfiguration.Repository.RegisterTypeRepository;
 import com.plc.user.entity.Role;
 import com.plc.user.entity.Roles;
 import com.plc.user.entity.User;
