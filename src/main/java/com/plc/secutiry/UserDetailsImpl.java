@@ -40,7 +40,6 @@ public class UserDetailsImpl implements UserDetails {
         this.mobileNumber = mobileNumber;
         this.datetime = datetime;
         this.authorities = authorities;
-        log.info("Mobile number in UserDetails in {}",mobileNumber);
     }
 
 

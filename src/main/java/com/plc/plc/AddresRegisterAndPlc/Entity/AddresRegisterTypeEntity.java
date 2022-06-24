@@ -23,13 +23,22 @@ public class AddresRegisterTypeEntity {
     private int address;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "reg_id"),name = "reg_id",referencedColumnName = "registerPlcId")
-    @JsonIgnoreProperties(value = {"addresRegisterTypeList","customerPlcData"})
+    @JsonIgnoreProperties(value = {"addresRegisterTypeList","customerPlcData","panelWithRegisterTypeList"})
     private RegisterTypePlc registerTypePlcData;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "company_plc_id"),name = "company_plc_id",referencedColumnName = "plcCompanyId")
-    @JsonIgnoreProperties(value = {"addresRegisterTypeDataList"})
+    @JsonIgnoreProperties(value = {"addresRegisterTypeDataList","panelEntityList"})
     private CompanyPlc companyPlcData;
 
+    @Override
+    public String toString() {
+        return "AddresRegisterTypeEntity{" +
+                "add_reg_id=" + add_reg_id +
+                ", address=" + address +
+                ", registerTypePlcData=" + registerTypePlcData +
+                ", companyPlcData=" + companyPlcData +
+                '}';
+    }
 }
