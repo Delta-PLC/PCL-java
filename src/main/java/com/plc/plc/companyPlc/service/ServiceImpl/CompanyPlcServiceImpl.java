@@ -63,7 +63,16 @@ public class CompanyPlcServiceImpl implements CompanyPlcService {
     }
 
     @Override
-    public List<CompanyPlc> findDistinctByPlcName() {
+    public List<String> findDistinctByPlcName() {
         return this.companyPlcRepository.findDistinctByPlcName();
+    }
+
+    @Override
+    public List<CompanyPlc> findByPlcName() {
+        return this.companyPlcRepository
+                .findByPlcName()
+                .stream()
+                .sorted(Comparator.comparing(CompanyPlc::getPlcName))
+                .collect(Collectors.toList());
     }
 }

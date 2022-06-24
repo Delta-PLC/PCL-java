@@ -40,7 +40,12 @@ public class CompanyPlcController {
     }
     @GetMapping(value = "/distinct")
     public ResponseEntity<?> getAllDistinctByPlcName() {
-        List<CompanyPlc> AllData = companyPlcServiceImpl.findDistinctByPlcName();
+        List<String > AllData = companyPlcServiceImpl.findDistinctByPlcName();
+        return new ResponseEntity<>(PageResponse.SuccessResponse(AllData), HttpStatus.OK);
+    }
+    @GetMapping(value = "/findByPlcName")
+    public ResponseEntity<?> getAllPlcName() {
+        List<CompanyPlc> AllData = companyPlcServiceImpl.findByPlcName();
         return new ResponseEntity<>(PageResponse.SuccessResponse(AllData), HttpStatus.OK);
     }
 
