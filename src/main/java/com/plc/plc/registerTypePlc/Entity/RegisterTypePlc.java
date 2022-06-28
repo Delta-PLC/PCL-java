@@ -35,8 +35,6 @@ public class RegisterTypePlc extends Audit<String> {
     @JsonIgnoreProperties(value = {"registerPlcData"})
     private List<AddresRegisterTypeEntity> addresRegisterTypeList;
 
-
-
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +

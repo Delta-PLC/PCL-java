@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -24,7 +25,20 @@ public class Jsondata {
     private Long status;
     private Long actualTimer;
     private Long setTimer;
+    private Date datetime;
 
+    public Date getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
+    }
+
+    @PrePersist
+    private void Createdate() {
+        datetime = new Date();
+    }
 
     public UUID getId() {
         return id;

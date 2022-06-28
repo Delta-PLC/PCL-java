@@ -19,9 +19,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Timer;
@@ -57,98 +57,98 @@ public class PlcApplication  implements ApplicationRunner {
 					JSONParser parser = new JSONParser();
 					JSONArray jsonArray = null;
 					try {
-						jsonArray = (JSONArray) parser.parse(new FileReader("C:/Users/Endlos/Downloads/data.json"));
-						int i = 1;
-						//   String n=null;
+						File file = new File("/home/endloss/Desktop/data.json");
+
+						if (file.length() == 0L) {
+							System.out.println("File is empty");
+						}
+						else
+						{
+							//C:/Users/Endlos/Downloads/data.json
+							jsonArray = (JSONArray) parser.parse(new FileReader("/home/endloss/Desktop/data.json"));
+
+							int i = 1;
+							//   String n=null;
 							int count =1;
-						for (Object o : jsonArray) {
+							for (Object o : jsonArray) {
 
-							System.out.println("connection done--------------");
-
-							JSONObject person = (JSONObject) o;
-							jsondata.setId(UUID.randomUUID());
-							if (person.get("Server IP") == null) {
-
-							} else {
-								jsondata.setIpAddress((String) person.get("Server IP"));
-								System.out.println("Server IP: " +jsondata.ip());
-
-								if (person.get("Status") == null) {
-
-									jsondata.setStatus(0);
-
-									if (person.get("Actual Timer") == null)
-									{
-										jsondata.setActualTimer(0);
-
-										if (person.get("Set Timer") == null)
-										{
-											jsondata.setSetTimer(0);
-
-										} else
-										{
-											jsondata.setSetTimer((Integer) person.get("Set Timer"));
-											System.out.println("Set Timer: " +jsondata.stt());
-										}
-									} else
-									{
-										jsondata.setActualTimer((Integer) person.get("Actual Timer"));
-										System.out.println("Actual Timer: " +jsondata.att());
-										if (person.get("Set Timer") == null) {
-											jsondata.setSetTimer(0);
-
-										} else {
-											jsondata.setSetTimer((Integer) person.get("Set Timer"));
-											System.out.println("Set Timer: " +jsondata.stt());
-										}
-									}
+								JSONObject person = (JSONObject) o;
+								jsondata.setId(UUID.randomUUID());
+								if (person.get("Server IP") == null) {
 
 								} else {
-									jsondata.setStatus((Integer) person.get("Status"));
-									System.out.println("Status: " +jsondata.st());
-									if (person.get("Actual Timer") == null) {
-										jsondata.setActualTimer(0);
+									jsondata.setIpAddress((String) person.get("Server IP"));
 
-										if (person.get("Set Timer") == null) {
-											jsondata.setSetTimer(0);
+									if (person.get("Status") == null) {
 
+										jsondata.setStatus(0);
 
-										} else {
-											jsondata.setSetTimer((Integer) person.get("Set Timer"));
-											System.out.println("Set Timer: " +jsondata.stt());
+										if (person.get("Actual Timer") == null)
+										{
+											jsondata.setActualTimer(0);
+
+											if (person.get("Set Timer") == null)
+											{
+												jsondata.setSetTimer(0);
+
+											} else
+											{
+												jsondata.setSetTimer((Integer) person.get("Set Timer"));
+											}
+										} else
+										{
+											jsondata.setActualTimer((Integer) person.get("Actual Timer"));
+											if (person.get("Set Timer") == null) {
+												jsondata.setSetTimer(0);
+
+											} else {
+												jsondata.setSetTimer((Integer) person.get("Set Timer"));
+											}
 										}
+
 									} else {
-										jsondata.setActualTimer((Integer) person.get("Actual Timer"));
-										System.out.println("Actual Timer: " +jsondata.att());
+										jsondata.setStatus((Integer) person.get("Status"));
+										if (person.get("Actual Timer") == null) {
+											jsondata.setActualTimer(0);
 
-										if (person.get("Set Timer") == null) {
-											jsondata.setSetTimer(0);
+											if (person.get("Set Timer") == null) {
+												jsondata.setSetTimer(0);
 
+
+											} else {
+												jsondata.setSetTimer((Integer) person.get("Set Timer"));
+											}
 										} else {
-											jsondata.setSetTimer((Integer) person.get("Set Timer"));
-											System.out.println("Set Timer: " +jsondata.stt());
+											jsondata.setActualTimer((Integer) person.get("Actual Timer"));
+
+											if (person.get("Set Timer") == null) {
+												jsondata.setSetTimer(0);
+
+											} else {
+												jsondata.setSetTimer((Integer) person.get("Set Timer"));
+											}
 										}
 									}
 								}
+
+								jsonRepository.save(jsondata);
+								//log.info("save Data {}",jsonRepository.save(jsondata));
+								i++;
+								BufferedWriter writer = Files.newBufferedWriter(Paths.get("/home/endloss/Desktop/data.json"));
+								writer.write("");
+								writer.flush();
 							}
+						}
 
-							jsonRepository.save(jsondata);
-							log.info("save Data {}",jsonRepository.save(jsondata));
-							i++;
-
-
-
-
-
-					}
 					} catch (ParseException e) {
 						throw new RuntimeException(e);
-					} catch (FileNotFoundException e) {
+					}catch (FileNotFoundException e) {
+						throw new RuntimeException(e);
+					} catch (IOException e) {
 						throw new RuntimeException(e);
 					}
-					System.out.println("Hello World");
 				}
-			}, 0, 500000);
+			}, 0, 5000);
 
 	}
 
