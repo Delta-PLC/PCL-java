@@ -143,9 +143,10 @@ public class PlcApplication  implements ApplicationRunner {
 												}
 											}
 										}
+										jsonRepository.save(jsondata);
 									}
 
-									jsonRepository.save(jsondata);
+
 									//log.info("save Data {}",jsonRepository.save(jsondata));
 									i++;
 									BufferedWriter writer = Files.newBufferedWriter(Paths.get("/home/endloss/Desktop/data.json"));
