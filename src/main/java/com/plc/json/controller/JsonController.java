@@ -1,6 +1,5 @@
 package com.plc.json.controller;
 
-import com.plc.company.Entity.CompanyEntity;
 import com.plc.json.model.Jsondata;
 import com.plc.json.repository.JsonRepository;
 import com.plc.json.service.JsonService;
@@ -63,12 +62,12 @@ public class JsonController {
     }
 
     @GetMapping(value = "read/desc")
-    public ResponseEntity<?> findByDescAll() {
+    public ResponseEntity<List<Jsondata>> findByDescAll() {
         log.info("Data", jsonRepository.findByDescAll());
-        return new ResponseEntity<>(jsonRepository.findByDescAll(), HttpStatus.OK);
-       // return ResponseEntity.ok(jsonRepository.findByDescAll());
-    }
+        //return new ResponseEntity<>(jsonRepository.findByDescAll(), HttpStatus.OK);
+        return ResponseEntity.ok(jsonRepository.findByDescAll());
 
+    }
 
 }
 
