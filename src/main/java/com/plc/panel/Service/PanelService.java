@@ -14,5 +14,5 @@ public interface PanelService {
 
     PanelEntity updateCompanyId(Long machineId, Long companyId);
     void removeCompanyInMachine(Long companyId,Long machineId);
-    List<PanelEntity> findByIp(String machineIP);
+
 }
