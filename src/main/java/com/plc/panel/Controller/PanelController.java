@@ -21,14 +21,15 @@ import java.sql.*;
 @RequestMapping(value = "/machine/api")
 public class PanelController {
     private static final Logger log= LoggerFactory.getLogger(PanelController.class);
-    private final PanelServiceImpl machineServiceImpl;
+    private final PanelServiceImpl panelService;
 
-    public PanelController(PanelServiceImpl machineServiceImpl) {
-        this.machineServiceImpl = machineServiceImpl;
+    public PanelController(PanelServiceImpl panelService) {
+        this.panelService = panelService;
     }
+
     @PostMapping
     public ResponseEntity<?> saveMachine(@RequestBody PanelSaveDto panelSaveDto) throws SQLException {
-        Object machineData=machineServiceImpl.save(panelSaveDto);
+        Object machineData=panelService.save(panelSaveDto);
 
 
         String url = "jdbc:postgresql://localhost:5432/plc_project";
@@ -42,7 +43,7 @@ public class PanelController {
         ResultSet rs = pstn.executeQuery();
         int i=1;
         try {
-            FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
+            FileWriter file = new FileWriter("C:/Users/Endlos/Downloads/machine.json");
             while (rs.next()) {
 
                 int mid=rs.getInt("machine_id");
@@ -107,7 +108,7 @@ public class PanelController {
     @PutMapping(value = "/{machineId}")
     public ResponseEntity<?> updateMachine(@PathVariable Long machineId, @RequestBody PanelSaveDto panelSaveDto) throws SQLException {
 
-        Object updateMachine=machineServiceImpl.update(machineId, panelSaveDto);
+        Object updateMachine=panelService.update(machineId, panelSaveDto);
 
         String url = "jdbc:postgresql://localhost:5432/plc_project";
         String user = "postgres";
@@ -126,7 +127,7 @@ public class PanelController {
 
 
 
-            FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
+            FileWriter file = new FileWriter("C:/Users/Endlos/Downloads/machine.json");
             while (rs.next()) {
 
                 int mid=rs.getInt("machine_id");
@@ -198,24 +199,24 @@ public class PanelController {
     @GetMapping(value = "getDataById/{machineId}")
     public ResponseEntity<?> getById(@PathVariable Long machineId)
     {
-        Object updateMachine=machineServiceImpl.findById(machineId);
+        Object updateMachine=panelService.findById(machineId);
         return new ResponseEntity<>(PageResponse.SuccessResponse(updateMachine),HttpStatus.OK);
     }
     @GetMapping
     public ResponseEntity<?> getAll()
     {
-        Object updateMachine=machineServiceImpl.findAll();
+        Object updateMachine=panelService.findAll();
         return new ResponseEntity<>(PageResponse.SuccessResponse(updateMachine),HttpStatus.OK);
     }
     @GetMapping(value = "deleteDataById/{machineId}")
     public ResponseEntity<?> deleteById(@PathVariable Long machineId)
     {
-        Object updateMachine=machineServiceImpl.Delete(machineId);
+        Object updateMachine=panelService.Delete(machineId);
         return new ResponseEntity<>(PageResponse.SuccessResponse(updateMachine),HttpStatus.NO_CONTENT);
     }
     @DeleteMapping(value = "/{machineId}/update/{companyId}")
     public ResponseEntity<?> companyRemoveIdMachine(@PathVariable Long machineId, @PathVariable Long companyId) {
-        machineServiceImpl.removeCompanyInMachine(machineId, companyId);
+        panelService.removeCompanyInMachine(machineId, companyId);
 
         return new ResponseEntity<>(new MessageResponse("update successfully " +
                 machineId), HttpStatus.ACCEPTED);
