@@ -21,8 +21,8 @@ public interface JsonRepository extends JpaRepository<Jsondata,Integer> {
     @Query(value = "SELECT id,actual_timer,ip_address,set_timer,status,datetime FROM public.json_data ORDER BY datetime DESC limit 1", nativeQuery = true)
     Jsondata findTopByOrderByIdDesc();
 
-//    @Query(value = "SELECT Cast(id as varchar)id,actual_timer,ip_address,set_timer,status,datetime FROM public.json_data ORDER BY datetime DESC ", nativeQuery = true)
-@Query(value = "SELECT Cast(id as varchar)id,actual_timer,ip_address,set_timer,status,datetime FROM public.json_data ORDER BY datetime DESC ", nativeQuery = true)
+    //    @Query(value = "SELECT Cast(id as varchar)id,actual_timer,ip_address,set_timer,status,datetime FROM public.json_data ORDER BY datetime DESC ", nativeQuery = true)
+    @Query(value = "SELECT Cast(id as varchar)id,actual_timer,ip_address,set_timer,status,datetime FROM public.json_data ORDER BY datetime DESC ", nativeQuery = true)
     List<Jsondata> findByDescAll();
 
     @Query("select j from Jsondata  j where  j.ipAddress=:ipAddress")

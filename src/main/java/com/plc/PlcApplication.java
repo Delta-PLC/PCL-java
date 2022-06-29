@@ -45,130 +45,130 @@ public class PlcApplication  implements ApplicationRunner {
 		SpringApplication.run(PlcApplication.class, args);
 
 
-			Timer t = new Timer();
-			t.schedule(new TimerTask() {
-				@Override
-				public void run() {
+		Timer t = new Timer();
+		t.schedule(new TimerTask() {
+			@Override
+			public void run() {
 
-					Jsondata jsondata = new Jsondata();
-					JSONParser parser = new JSONParser();
-					JSONArray jsonArray = null;
-					try {
-
-
+				Jsondata jsondata = new Jsondata();
+				JSONParser parser = new JSONParser();
+				JSONArray jsonArray = null;
+				try {
 
 
 
-						File file = new File("/home/endloss/Desktop/data.json");
-
-						if (file.length() == 0L) {
-							System.out.println("File is empty");
-						}
-						else
-						{
 
 
-							String content = new Scanner(new File("/home/endloss/Desktop/data.json")).next();
+					File file = new File("/home/endloss/Desktop/data.json");
+
+					if (file.length() == 0L) {
+						System.out.println("File is empty");
+					}
+					else
+					{
+
+
+						String content = new Scanner(new File("/home/endloss/Desktop/data.json")).next();
 //							System.out.println("--------------------------------------------"+content+"----------------------------------------");
 //							String[] textStr = content.split("\n");
 //							String aa = textStr[0];
 
-							String aa=content;
-							String bb = "[{}]";
+						String aa=content;
+						String bb = "[{}]";
 
-							if(aa.equals(bb)){
-								System.out.println("file Empty contains only [{}]");
-							}
-							else{
+						if(aa.equals(bb)){
+							System.out.println("file Empty contains only [{}]");
+						}
+						else{
 
 
-								//C:/Users/Endlos/Downloads/data.json
-								jsonArray = (JSONArray) parser.parse(new FileReader("/home/endloss/Desktop/data.json"));
+							//C:/Users/Endlos/Downloads/data.json
+							jsonArray = (JSONArray) parser.parse(new FileReader("/home/endloss/Desktop/data.json"));
 
-								int i = 1;
-								//   String n=null;
-								int count =1;
-								for (Object o : jsonArray) {
+							int i = 1;
+							//   String n=null;
+							int count =1;
+							for (Object o : jsonArray) {
 
-									JSONObject person = (JSONObject) o;
-									jsondata.setId(UUID.randomUUID());
-									if (person.get("Server IP") == null) {
+								JSONObject person = (JSONObject) o;
+								jsondata.setId(UUID.randomUUID());
+								if (person.get("Server IP") == null) {
 
-									} else {
-										jsondata.setIpAddress((String) person.get("Server IP"));
+								} else {
+									jsondata.setIpAddress((String) person.get("Server IP"));
 
-										if (person.get("Status") == null) {
+									if (person.get("Status") == null) {
 
-											jsondata.setStatus(0);
+										jsondata.setStatus(0);
 
-											if (person.get("Actual Timer") == null) {
-												jsondata.setActualTimer(0);
+										if (person.get("Actual Timer") == null) {
+											jsondata.setActualTimer(0);
 
-												if (person.get("Set Timer") == null) {
-													jsondata.setSetTimer(0);
+											if (person.get("Set Timer") == null) {
+												jsondata.setSetTimer(0);
 
-												} else {
-													jsondata.setSetTimer((Integer) person.get("Set Timer"));
-												}
 											} else {
-												jsondata.setActualTimer((Integer) person.get("Actual Timer"));
-												if (person.get("Set Timer") == null) {
-													jsondata.setSetTimer(0);
-
-												} else {
-													jsondata.setSetTimer((Integer) person.get("Set Timer"));
-												}
+												jsondata.setSetTimer((Integer) person.get("Set Timer"));
 											}
-
 										} else {
-											jsondata.setStatus((Integer) person.get("Status"));
-											if (person.get("Actual Timer") == null) {
-												jsondata.setActualTimer(0);
+											jsondata.setActualTimer((Integer) person.get("Actual Timer"));
+											if (person.get("Set Timer") == null) {
+												jsondata.setSetTimer(0);
 
-												if (person.get("Set Timer") == null) {
-													jsondata.setSetTimer(0);
-
-
-												} else {
-													jsondata.setSetTimer((Integer) person.get("Set Timer"));
-												}
 											} else {
-												jsondata.setActualTimer((Integer) person.get("Actual Timer"));
-
-												if (person.get("Set Timer") == null) {
-													jsondata.setSetTimer(0);
-
-												} else {
-													jsondata.setSetTimer((Integer) person.get("Set Timer"));
-												}
+												jsondata.setSetTimer((Integer) person.get("Set Timer"));
 											}
 										}
-										jsonRepository.save(jsondata);
+
+									} else {
+										jsondata.setStatus((Integer) person.get("Status"));
+										if (person.get("Actual Timer") == null) {
+											jsondata.setActualTimer(0);
+
+											if (person.get("Set Timer") == null) {
+												jsondata.setSetTimer(0);
+
+
+											} else {
+												jsondata.setSetTimer((Integer) person.get("Set Timer"));
+											}
+										} else {
+											jsondata.setActualTimer((Integer) person.get("Actual Timer"));
+
+											if (person.get("Set Timer") == null) {
+												jsondata.setSetTimer(0);
+
+											} else {
+												jsondata.setSetTimer((Integer) person.get("Set Timer"));
+											}
+										}
 									}
-
-
-									//log.info("save Data {}",jsonRepository.save(jsondata));
-									i++;
-									BufferedWriter writer = Files.newBufferedWriter(Paths.get("/home/endloss/Desktop/data.json"));
-									writer.write("[{}]");
-									writer.flush();
+									jsonRepository.save(jsondata);
 								}
+
+
+								//log.info("save Data {}",jsonRepository.save(jsondata));
+								i++;
+								BufferedWriter writer = Files.newBufferedWriter(Paths.get("/home/endloss/Desktop/data.json"));
+								writer.write("[{}]");
+								writer.flush();
 							}
-
-
 						}
 
 
-
-					}catch (ParseException e) {
-						throw new RuntimeException(e);
-					}catch (FileNotFoundException e) {
-						throw new RuntimeException(e);
-					} catch (IOException e) {
-						throw new RuntimeException(e);
 					}
+
+
+
+				}catch (ParseException e) {
+					throw new RuntimeException(e);
+				}catch (FileNotFoundException e) {
+					throw new RuntimeException(e);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
 				}
-			}, 0, 5000);
+			}
+		}, 0, 5000);
 
 	}
 
@@ -206,7 +206,7 @@ public class PlcApplication  implements ApplicationRunner {
 
 			user.getRoles().add(roleSuperadmin);
 			user.getRoles().add(roles);
-		//	log.info("{}",user.getRoles());
+			//	log.info("{}",user.getRoles());
 
 			userRepository.save(user);
 		}

@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Jsondata {
     @Id
-  //  @GeneratedValue(generator = "UUID")
+    //  @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
