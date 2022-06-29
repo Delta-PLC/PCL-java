@@ -1,6 +1,5 @@
 package com.plc.json.controller;
 
-import com.plc.company.Entity.CompanyEntity;
 import com.plc.json.model.Jsondata;
 import com.plc.json.repository.JsonRepository;
 import com.plc.json.service.JsonService;
@@ -55,11 +54,6 @@ public class JsonController {
         }
     }
 
-//    @GetMapping("/latest")
-//    public Jsondata getlatestById() {
-//        Jsondata emp = JsonRepository.findTopByOrderByIdDesc();
-//        return emp;
-//    }
 
     @GetMapping(value = "/latest")
     public ResponseEntity<?> findTopByOrderById() {
@@ -67,26 +61,12 @@ public class JsonController {
         return new ResponseEntity<>(PageResponse.SuccessResponse(ipData), HttpStatus.OK);
     }
 
+    @GetMapping(value = "read/desc")
+    public ResponseEntity<List<Jsondata>> findByDescAll() {
+        log.info("Data", jsonRepository.findByDescAll());
+        //return new ResponseEntity<>(jsonRepository.findByDescAll(), HttpStatus.OK);
+        return ResponseEntity.ok(jsonRepository.findByDescAll());
+
+    }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
