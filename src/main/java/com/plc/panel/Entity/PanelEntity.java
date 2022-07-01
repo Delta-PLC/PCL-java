@@ -33,7 +33,7 @@ public class PanelEntity extends Audit<String> {
     private boolean machineActive;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "c_id"),name = "c_id",referencedColumnName = "company_id")
-    @JsonIgnoreProperties(value = {"machineEntityList"})
+    @JsonIgnoreProperties(value = {"machineEntityList","panelEntityList"})
     private CompanyEntity companyEntityList;
 
     @OneToMany(mappedBy = "panelEntityData",cascade = CascadeType.ALL)

@@ -154,11 +154,7 @@ public class PlcApplication  implements ApplicationRunner {
 								writer.flush();
 							}
 						}
-
-
 					}
-
-
 
 				}catch (ParseException e) {
 					throw new RuntimeException(e);
@@ -168,7 +164,7 @@ public class PlcApplication  implements ApplicationRunner {
 					throw new RuntimeException(e);
 				}
 			}
-		}, 0, 5000);
+		}, 0, 1000);
 
 	}
 

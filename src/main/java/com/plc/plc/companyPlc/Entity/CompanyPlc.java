@@ -30,7 +30,7 @@ public class  CompanyPlc extends Audit<String > {
 
 
     @OneToMany(mappedBy = "companyPlcdata",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"companyPlcdata"})
+    @JsonIgnoreProperties(value = {"companyPlcdata","customerPlcList"})
     private List<PanelEntity> panelEntityList;
 
     public Long getPlcCompanyId() {

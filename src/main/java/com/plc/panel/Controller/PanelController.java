@@ -1,10 +1,10 @@
 package com.plc.panel.Controller;
 
 import com.plc.panel.Dto.PanelSaveDto;
-import com.plc.panel.Entity.PanelEntity;
 import com.plc.panel.Service.ServiceImpl.PanelServiceImpl;
 import com.plc.payload.Response.MessageResponse;
 import com.plc.payload.Response.PageResponse;
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -36,65 +40,55 @@ public class PanelController {
         String password = "postgres";
 
         Connection con= DriverManager.getConnection(url, user, password);
-        String select_sql= "select * from public.tblmachine_details;";
+        //String select_sql= "select * from public.tblmachine_details;";
+        String select_sql= "select tblmachine_details.machine_ip, tblmachine_details.dev_id, tblmachine_details.machine_port, company_details.company_name,tblplc_customer.reg_name, tbl_add_panel_with_register_tag.register_tag, addres_regisater_type.address from tblmachine_details left join company_details on tblmachine_details.c_id=company_details.company_id left join tblplc_customer on tblmachine_details.machine_id =tblplc_customer.m_id left join tbl_add_panel_with_register_tag on tblmachine_details.machine_id=tbl_add_panel_with_register_tag.penal_id left join plc_company on tblmachine_details.plc_id_=plc_company.plc_company_id left join addres_regisater_type on tblmachine_details.plc_id_=addres_regisater_type.company_plc_id";
         PreparedStatement pstn = con.prepareStatement(select_sql);
-        System.out.println(pstn);
         ResultSet rs = pstn.executeQuery();
         int i=1;
         try {
+            JSONArray obj = new JSONArray();
             FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
             while (rs.next()) {
 
-                int mid=rs.getInt("machine_id");
-                String cby=rs.getString("created_by");
-                String cdate=rs.getString("created_date");
-                String mby=rs.getString("modified_by");
-                String mdate=rs.getString("modified_date");
-                boolean active=rs.getBoolean("machine_active");
-                int did=rs.getInt("dev_id");
-                String mip=rs.getString("machine_ip");
-                String mname=rs.getString("machine_name");
-                int mport=rs.getInt("machine_port");
-                String per=rs.getString("permissionn");
-                int cid=rs.getInt("c_id");
 
-                System.out.println("machine_id: "+mid);
-                System.out.println("created_by: "+cby);
-                System.out.println("created_date: "+cdate);
-                System.out.println("modified_by: "+mby);
-                System.out.println("modified_date: "+mdate);
-                System.out.println("machine_active: "+active);
-                System.out.println("dev_id: "+did);
-                System.out.println("machine_ip: "+mip);
-                System.out.println("machine_name: "+mname);
-                System.out.println("machine_port: "+mport);
-                System.out.println("permission: "+per);
-                System.out.println("c_id: "+cid);
-                System.out.println("____________________________");
+                int dev_id=rs.getInt("dev_id");
+                int machine_port=rs.getInt("machine_port");
+                String machine_ip=rs.getString("machine_ip");
+                String company_name=rs.getString("company_name");
+                String reg_name=rs.getString("reg_name");
+                String register_tag=rs.getString("register_tag");
+                int address=rs.getInt("address");
+
+
 
                 i++;
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("machine_id",mid);
-//                jsonObject.put("created_by",cby);
-//                jsonObject.put("created_date",cdate);
-//                jsonObject.put("modified_by",mby);
-//                jsonObject.put("modified_date",mdate);
-                jsonObject.put("machine_active",active);
-                // dev_id is device id(unit id in dataa.json file)
-                jsonObject.put("dev_id",did);
-                jsonObject.put("machine_ip",mip);
-                jsonObject.put("machine_name",mname);
-                jsonObject.put("machine_port",mport);
-                jsonObject.put("permission",per);
-                jsonObject.put("c_id",cid);
+                jsonObject.put("IP",machine_ip);
+                jsonObject.put("unitid",dev_id);
+                jsonObject.put("port",machine_port);
+               // jsonObject.put("company",company_name);
+               // jsonObject.put("method",reg_name);
+               // jsonObject.put("lport",register_tag);
+               // jsonObject.put("2222",address);
 
-                file.write(jsonObject.toJSONString());
 
-                System.out.println("JSON file created: "+jsonObject);
+                JSONArray work = new JSONArray();
+                JSONObject jsonObject1 = new JSONObject();
+                jsonObject1.put("method",reg_name);
+                jsonObject1.put("lport",register_tag);
+                jsonObject1.put("2222",address);
+                work.add(jsonObject1);
+
+               //jsonObject.put("Work", work);
+
+                obj.add(work);
+                obj.add(jsonObject);
+
+
             }
+            file.write(String.valueOf(obj));
             file.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -112,69 +106,73 @@ public class PanelController {
         String url = "jdbc:postgresql://localhost:5432/plc_project";
         String user = "postgres";
         String password = "postgres";
-
+        int i=1;
         Connection con= DriverManager.getConnection(url, user, password);
         //System.out.println("connection done");
-        String select_sql= "select * from public.tblmachine_details;";
+//        String select_sql= "select * from public.tblmachine_details;";
+       // String select_sql= "select tblmachine_details.machine_id,tblmachine_details.machine_ip, tblmachine_details.dev_id, tblmachine_details.machine_port, company_details.company_name,tblplc_customer.reg_name, tbl_add_panel_with_register_tag.register_tag, addres_regisater_type.address from tblmachine_details left join company_details on tblmachine_details.c_id=company_details.company_id left join tblplc_customer on tblmachine_details.machine_id =tblplc_customer.m_id left join tbl_add_panel_with_register_tag on tblmachine_details.machine_id=tbl_add_panel_with_register_tag.penal_id left join plc_company on tblmachine_details.plc_id_=plc_company.plc_company_id left join addres_regisater_type on tblmachine_details.plc_id_=addres_regisater_type.company_plc_id where tblmachine_details.machine_id='"+i+"'";
+        String select_sql= "select tblmachine_details.machine_id,tblmachine_details.machine_ip, tblmachine_details.dev_id, tblmachine_details.machine_port, company_details.company_name,tblplc_customer.reg_name, tbl_add_panel_with_register_tag.register_tag, addres_regisater_type.address,tbl_plcreg_type.plc_register from tblmachine_details left join company_details on tblmachine_details.c_id=company_details.company_id left join tblplc_customer on tblmachine_details.machine_id =tblplc_customer.m_id left join tbl_add_panel_with_register_tag on tblmachine_details.machine_id=tbl_add_panel_with_register_tag.penal_id left join plc_company on tblmachine_details.plc_id_=plc_company.plc_company_id left join addres_regisater_type on tblmachine_details.plc_id_=addres_regisater_type.company_plc_id left join tbl_plcreg_type on tblmachine_details.plc_id_=tbl_plcreg_type.register_plc_id";
         PreparedStatement pstn = con.prepareStatement(select_sql);
-        System.out.println(pstn);
         ResultSet rs = pstn.executeQuery();
-        int i=1;
+
 
 
         try {
-
-
+            JSONArray obj = new JSONArray();
 
             FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
             while (rs.next()) {
 
-                int mid=rs.getInt("machine_id");
-                String cby=rs.getString("created_by");
-                String cdate=rs.getString("created_date");
-                String mby=rs.getString("modified_by");
-                String mdate=rs.getString("modified_date");
-                boolean active=rs.getBoolean("machine_active");
-                int did=rs.getInt("dev_id");
-                String mip=rs.getString("machine_ip");
-                String mname=rs.getString("machine_name");
-                int mport=rs.getInt("machine_port");
-                String per=rs.getString("permissionn");
-                int cid=rs.getInt("c_id");
+                //data from tblmachine_details
 
-                System.out.println("machine_id: "+mid);
-                System.out.println("created_by: "+cby);
-                System.out.println("created_date: "+cdate);
-                System.out.println("modified_by: "+mby);
-                System.out.println("modified_date: "+mdate);
-                System.out.println("machine_active: "+active);
-                System.out.println("dev_id: "+did);
-                System.out.println("machine_ip: "+mip);
-                System.out.println("machine_name: "+mname);
-                System.out.println("machine_port: "+mport);
-                System.out.println("permission: "+per);
-                System.out.println("c_id: "+cid);
-                System.out.println("____________________________");
+                int dev_id=rs.getInt("dev_id");
+                int machine_port=rs.getInt("machine_port");
+                String machine_ip=rs.getString("machine_ip");
+                String company_name=rs.getString("company_name");
+
+
+
+                String reg_name=rs.getString("reg_name");
+                String register_tag=rs.getString("register_tag");
+                int address=rs.getInt("address");
+                String plc_register=rs.getString("plc_register");
+
+
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("IP",machine_ip);
+                jsonObject.put("unitid",dev_id);
+                jsonObject.put("port",machine_port);
+
+
+
+                List<String> listStrings = new ArrayList<>();
+                listStrings.add(reg_name);
+                listStrings.add(plc_register);
+                listStrings.add(register_tag);
+                //listStrings.add(String.valueOf(address));
+
+                JSONObject jsonObject1 = new JSONObject();
+                jsonObject1.put("Method",listStrings);
+
+                List<String> listStrings1 = new ArrayList<>();
+                listStrings1.add(String.valueOf(address));
+                JSONObject jsonObject2 = new JSONObject();
+                jsonObject2.put("lport",listStrings1);
+
+                JSONArray obj1 = new JSONArray();
+                obj1.add(jsonObject1);
+                obj1.add(jsonObject2);
+
+                jsonObject.put("work",obj1);
+                jsonObject.put("company",company_name);
+
+                obj.add(jsonObject);
 
                 i++;
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("machine_id",mid);
-//                jsonObject.put("created_by",cby);
-//                jsonObject.put("created_date",cdate);
-//                jsonObject.put("modified_by",mby);
-//                jsonObject.put("modified_date",mdate);
-                jsonObject.put("machine_active",active);
-                jsonObject.put("dev_id",did);
-                jsonObject.put("machine_ip",mip);
-                jsonObject.put("machine_name",mname);
-                jsonObject.put("machine_port",mport);
-                jsonObject.put("permission",per);
-                jsonObject.put("c_id",cid);
-
-                file.write(jsonObject.toJSONString());
-
-                System.out.println("JSON file created: "+jsonObject);
             }
+
+            file.write(String.valueOf(obj));
             file.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
