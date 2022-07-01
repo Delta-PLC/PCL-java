@@ -93,10 +93,7 @@ public class PanelServiceImpl implements PanelService {
         companyRepository.save(company);
     }
 
-    @Override
-    public List<PanelEntity> findByIp(String machineIP) {
-        return null;
-    }
+
 
 
 }

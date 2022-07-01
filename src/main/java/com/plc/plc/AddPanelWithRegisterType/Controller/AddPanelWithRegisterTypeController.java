@@ -18,21 +18,22 @@ public class AddPanelWithRegisterTypeController {
     public AddPanelWithRegisterTypeController(AddPanelWithRegisterTypeServiceImpl addPanelWithRegisterTypeServiceimpl) {
         this.addPanelWithRegisterTypeServiceimpl = addPanelWithRegisterTypeServiceimpl;
     }
+
     @PostMapping
     public ResponseEntity<?> savedata(@RequestBody AddPanelWithRegisterType addPanelWithRegisterType) {
         AddPanelWithRegisterType data = this.addPanelWithRegisterTypeServiceimpl.saveData(addPanelWithRegisterType);
         return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.CREATED);
     }
+
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> findByid(@PathVariable Long id)
-    {
-        AddPanelWithRegisterType data=this.addPanelWithRegisterTypeServiceimpl.findById(id);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
+    public ResponseEntity<?> findByid(@PathVariable Long id) {
+        AddPanelWithRegisterType data = this.addPanelWithRegisterTypeServiceimpl.findById(id);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
     }
+
     @GetMapping(value = "/{panelId}/registerType/{registerId}")
-    public ResponseEntity<?> findByPanelIdAndRegisterId(@PathVariable Long panelId, @PathVariable Long registerId)
-    {
-        List<?> data=this.addPanelWithRegisterTypeServiceimpl.findByPanelDataAndRegisterType(panelId,registerId);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(data),HttpStatus.OK);
-}
+    public ResponseEntity<?> findByPanelIdAndRegisterId(@PathVariable Long panelId, @PathVariable Long registerId) {
+        List<?> data = this.addPanelWithRegisterTypeServiceimpl.findByPanelDataAndRegisterType(panelId, registerId);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(data), HttpStatus.OK);
+    }
 }
