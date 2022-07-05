@@ -41,7 +41,7 @@ public class PanelController {
 
         Connection con= DriverManager.getConnection(url, user, password);
         //String select_sql= "select * from public.tblmachine_details;";
-        String select_sql= "select tblmachine_details.machine_id,tblmachine_details.machine_ip, tblmachine_details.dev_id, tblmachine_details.machine_port, company_details.company_name,tblplc_customer.reg_name, tbl_add_panel_with_register_tag.register_tag, addres_regisater_type.address,tbl_plcreg_type.plc_register from tblmachine_details left join company_details on tblmachine_details.c_id=company_details.company_id left join tblplc_customer on tblmachine_details.machine_id =tblplc_customer.m_id left join tbl_add_panel_with_register_tag on tblmachine_details.machine_id=tbl_add_panel_with_register_tag.penal_id left join plc_company on tblmachine_details.plc_id_=plc_company.plc_company_id left join addres_regisater_type on tblmachine_details.plc_id_=addres_regisater_type.company_plc_id left join tbl_plcreg_type on tblmachine_details.plc_id_=tbl_plcreg_type.register_plc_id";
+        String select_sql="select tblmachine_details.machine_id,tblmachine_details.machine_ip, tblmachine_details.dev_id, tblmachine_details.machine_port,addres_regisater_type.address,plc_company.plc_name,plc_company.plc_mode,tbl_add_panel_with_register_tag.register_tag, tbl_plcreg_type.plc_register from tblmachine_details left join addres_regisater_type on tblmachine_details.plc_id_=addres_regisater_type.company_plc_id left join plc_company on tblmachine_details.plc_id_=plc_company.plc_company_id left join tbl_add_panel_with_register_tag on tblmachine_details.machine_id=tbl_add_panel_with_register_tag.penal_id left join tbl_plcreg_type on tblmachine_details.plc_id_=tbl_plcreg_type.register_plc_id";
         PreparedStatement pstn = con.prepareStatement(select_sql);
         ResultSet rs = pstn.executeQuery();
         int i=1;
@@ -52,14 +52,16 @@ public class PanelController {
 
 
 
-                int dev_id=rs.getInt("dev_id");
-                int machine_port=rs.getInt("machine_port");
-                String machine_ip=rs.getString("machine_ip");
-                String company_name=rs.getString("company_name");
-                String reg_name=rs.getString("reg_name");
-                String register_tag=rs.getString("register_tag");
-                int address=rs.getInt("address");
-                String plc_register=rs.getString("plc_register");
+                int dev_id = rs.getInt("dev_id");
+                int machine_port = rs.getInt("machine_port");
+                String machine_ip = rs.getString("machine_ip");
+                //  String company_name = rs.getString("company_name");
+                int address = rs.getInt("address");
+                String plc_name = rs.getString("plc_name");
+                String plc_mode = rs.getString("plc_mode");
+               // String reg_name = rs.getString("reg_name");
+                String register_tag = rs.getString("register_tag");
+                String plc_register = rs.getString("plc_register");
 
                 i++;
 
@@ -68,7 +70,7 @@ public class PanelController {
                 jsonObject.put("unitid",dev_id);
                 jsonObject.put("port",machine_port);
                 List<String> listStrings = new ArrayList<>();
-                listStrings.add(reg_name);
+               // listStrings.add(reg_name);
                 listStrings.add(plc_register);
                 listStrings.add(register_tag);
                 JSONObject jsonObject1 = new JSONObject();
@@ -80,8 +82,9 @@ public class PanelController {
                 JSONArray obj1 = new JSONArray();
                 obj1.add(jsonObject1);
                 jsonObject.put("work",obj1);
-                jsonObject.put("company",company_name);
+               // jsonObject.put("company",company_name);
                 obj.add(jsonObject);
+               // System.out.println("json array:"+obj);
             }
             file.write(String.valueOf(obj));
             file.close();
@@ -114,9 +117,8 @@ public class PanelController {
 //            int k=1;
 //            System.out.println("last idex is : " + k);
 //        //}
-
-//        String select_sql = "select tblmachine_details.machine_id,tblmachine_details.machine_ip, tblmachine_details.dev_id, tblmachine_details.machine_port, company_details.company_name,tblplc_customer.reg_name, tbl_add_panel_with_register_tag.register_tag, addres_regisater_type.address,tbl_plcreg_type.plc_register from tblmachine_details left join company_details on tblmachine_details.c_id=company_details.company_id left join tblplc_customer on tblmachine_details.machine_id =tblplc_customer.m_id left join tbl_add_panel_with_register_tag on tblmachine_details.machine_id=tbl_add_panel_with_register_tag.penal_id left join plc_company on tblmachine_details.plc_id_=plc_company.plc_company_id left join addres_regisater_type on tblmachine_details.plc_id_=addres_regisater_type.company_plc_id left join tbl_plcreg_type on tblmachine_details.plc_id_=tbl_plcreg_type.register_plc_id where machine_id='"+k+"'"  ;
-        String select_sql = "select tblmachine_details.machine_id,tblmachine_details.machine_ip, tblmachine_details.dev_id, tblmachine_details.machine_port, company_details.company_name,tblplc_customer.reg_name, tbl_add_panel_with_register_tag.register_tag, addres_regisater_type.address,tbl_plcreg_type.plc_register from tblmachine_details left join company_details on tblmachine_details.c_id=company_details.company_id left join tblplc_customer on tblmachine_details.machine_id =tblplc_customer.m_id left join tbl_add_panel_with_register_tag on tblmachine_details.machine_id=tbl_add_panel_with_register_tag.penal_id left join plc_company on tblmachine_details.plc_id_=plc_company.plc_company_id left join addres_regisater_type on tblmachine_details.plc_id_=addres_regisater_type.company_plc_id left join tbl_plcreg_type on tblmachine_details.plc_id_=tbl_plcreg_type.register_plc_id";
+        String select_sql="select tblmachine_details.machine_id,tblmachine_details.machine_ip, tblmachine_details.dev_id, tblmachine_details.machine_port,addres_regisater_type.address,plc_company.plc_name,plc_company.plc_mode,tbl_add_panel_with_register_tag.register_tag, tbl_plcreg_type.plc_register from tblmachine_details left join addres_regisater_type on tblmachine_details.plc_id_=addres_regisater_type.company_plc_id left join plc_company on tblmachine_details.plc_id_=plc_company.plc_company_id left join tbl_add_panel_with_register_tag on tblmachine_details.machine_id=tbl_add_panel_with_register_tag.penal_id left join tbl_plcreg_type on tblmachine_details.plc_id_=tbl_plcreg_type.register_plc_id";
+        //String select_sql = "select tblmachine_details.machine_id,tblmachine_details.machine_ip, tblmachine_details.dev_id, tblmachine_details.machine_port, company_details.company_name,tblplc_customer.reg_name, tbl_add_panel_with_register_tag.register_tag, addres_regisater_type.address,tbl_plcreg_type.plc_register from tblmachine_details left join company_details on tblmachine_details.c_id=company_details.company_id left join tblplc_customer on tblmachine_details.machine_id =tblplc_customer.m_id left join tbl_add_panel_with_register_tag on tblmachine_details.machine_id=tbl_add_panel_with_register_tag.penal_id left join plc_company on tblmachine_details.plc_id_=plc_company.plc_company_id left join addres_regisater_type on tblmachine_details.plc_id_=addres_regisater_type.company_plc_id left join tbl_plcreg_type on tblmachine_details.plc_id_=tbl_plcreg_type.register_plc_id";
         PreparedStatement pstn = con.prepareStatement(select_sql);
         ResultSet rs = pstn.executeQuery();
 
@@ -132,12 +134,12 @@ public class PanelController {
                 int dev_id = rs.getInt("dev_id");
                 int machine_port = rs.getInt("machine_port");
                 String machine_ip = rs.getString("machine_ip");
-                String company_name = rs.getString("company_name");
-
-
-                String reg_name = rs.getString("reg_name");
-                String register_tag = rs.getString("register_tag");
+              //  String company_name = rs.getString("company_name");
                 int address = rs.getInt("address");
+                String plc_name = rs.getString("plc_name");
+                String plc_mode = rs.getString("plc_mode");
+               // String reg_name = rs.getString("reg_name");
+                String register_tag = rs.getString("register_tag");
                 String plc_register = rs.getString("plc_register");
 
 
@@ -148,7 +150,7 @@ public class PanelController {
 
 
                 List<String> listStrings = new ArrayList<>();
-                listStrings.add(reg_name);
+                //listStrings.add(reg_name);
                 listStrings.add(plc_register);
                 listStrings.add(register_tag);
                 //listStrings.add(String.valueOf(address));
@@ -166,7 +168,7 @@ public class PanelController {
                 //obj1.add(jsonObject2);
 
                 jsonObject.put("work", obj1);
-                jsonObject.put("company", company_name);
+                //jsonObject.put("company", company_name);
 
                 obj.add(jsonObject);
 
