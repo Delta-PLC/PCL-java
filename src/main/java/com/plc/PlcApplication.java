@@ -164,7 +164,7 @@ public class PlcApplication  implements ApplicationRunner {
 					throw new RuntimeException(e);
 				}
 			}
-		}, 0, 1000);
+		}, 0, 500000);
 
 	}
 
