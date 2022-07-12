@@ -37,7 +37,7 @@ public class PanelEntity extends Audit<String> {
     private CompanyEntity companyEntityList;
 
     @OneToMany(mappedBy = "panelEntityData",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"machineEntityData"})
+    @JsonIgnoreProperties(value = {"machineEntityData","method"})
     private List<CustomerPlc> customerPlcList;
 
     @OneToMany(mappedBy = "paneldata",cascade = CascadeType.ALL)
