@@ -22,7 +22,7 @@ public class AddresRegisterTypeEntity {
     @Column(name = "add_reg_id", nullable = false)
     private Long add_reg_id;
 
-    private int address;
+    private String  address;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "reg_id"),name = "reg_id",referencedColumnName = "registerPlcId")
     @JsonIgnoreProperties(value = {"addresRegisterTypeList","customerPlcData","panelWithRegisterTypeList"})

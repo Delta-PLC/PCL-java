@@ -33,12 +33,16 @@ public class PanelController {
         this.machineServiceImpl = machineServiceImpl;
     }
     @PostMapping
-    public ResponseEntity<?> saveMachine(@RequestBody PanelSaveDto panelSaveDto) throws SQLException {
-        Object machineData=machineServiceImpl.save(panelSaveDto);
+    public ResponseEntity<?> saveMachine(@RequestBody PanelSaveDto panelSaveDto) throws SQLException, IOException {
 
-        log.info("machine save Data =>{} ",machineData);
+        Object machineData = machineServiceImpl.save(panelSaveDto);
+        log.info("machine save Data =>{} ", machineData);
+//        log.info("machine save Data =>{} ",machineData);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(machineData), HttpStatus.CREATED);
+    }
 
-
+    public static void Method1()throws SQLException
+    {
         String url = "jdbc:postgresql://localhost:5432/plc_project";
         String user = "postgres";
         String password = "postgres";
@@ -113,10 +117,10 @@ public class PanelController {
             throw new RuntimeException(e);
         }
 
-
-//        log.info("machine save Data =>{} ",machineData);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(machineData), HttpStatus.CREATED);
     }
+
+
+
     @PutMapping(value = "/{machineId}")
     public ResponseEntity<?> updateMachine(@PathVariable Long machineId, @RequestBody PanelSaveDto panelSaveDto) throws SQLException, IOException {
 
@@ -224,4 +228,7 @@ public class PanelController {
                 machineId), HttpStatus.ACCEPTED);
     }
 }
+
+
+
 
