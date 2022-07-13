@@ -33,16 +33,16 @@ public class PanelController {
         this.machineServiceImpl = machineServiceImpl;
     }
     @PostMapping
-    public ResponseEntity<?> saveMachine(@RequestBody PanelSaveDto panelSaveDto) throws SQLException {
-        Object machineData=machineServiceImpl.save(panelSaveDto);
-        log.info("machine save Data =>{} ",machineData);
-        Method1();
+    public ResponseEntity<?> saveMachine(@RequestBody PanelSaveDto panelSaveDto) throws SQLException, IOException {
+
+        Object machineData = machineServiceImpl.save(panelSaveDto);
+        log.info("machine save Data =>{} ", machineData);
 //        log.info("machine save Data =>{} ",machineData);
         return new ResponseEntity<>(PageResponse.SuccessResponse(machineData), HttpStatus.CREATED);
-
     }
 
-    public static void Method1() throws SQLException {
+    public static void Method1()throws SQLException
+    {
         String url = "jdbc:postgresql://localhost:5432/plc_project";
         String user = "postgres";
         String password = "postgres";
@@ -77,16 +77,13 @@ public class PanelController {
 
                 String sql = "select addres_regisater_type.address , addres_regisater_type.add_reg_id,tbl_add_panel_with_register_tag.add_reg_id from addres_regisater_type left join tbl_add_panel_with_register_tag on addres_regisater_type.add_reg_id=tbl_add_panel_with_register_tag.add_reg_id where penal_id='" + machine_id + "'";
                 PreparedStatement pstnsql = con.prepareStatement(sql);
-                System.out.println("pstnsql---:"+pstnsql);
                 ResultSet rssql = pstnsql.executeQuery();
                 while (rssql.next()) {
 
                     JSONObject jsonObject1 = new JSONObject();
                     String address = rssql.getString("address");
-                    System.out.println("address---:"+address);
                     String sql1 = "select addres_regisater_type.address,tbl_plcreg_type.plc_register from addres_regisater_type left join tbl_plcreg_type on addres_regisater_type.reg_id=tbl_plcreg_type.register_plc_id where address='" + address + "'";
                     PreparedStatement pstnsql1 = con.prepareStatement(sql1);
-                    System.out.println("pstnsql1---:"+pstnsql1);
                     ResultSet rssql1 = pstnsql1.executeQuery();
                     while (rssql1.next()) {
                         List<String> listStrings = new ArrayList<>();
@@ -119,7 +116,9 @@ public class PanelController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
     }
+
 
 
     @PutMapping(value = "/{machineId}")
@@ -159,35 +158,35 @@ public class PanelController {
                 JSONArray obj1 = new JSONArray();
 
 
-                String sql = "select addres_regisater_type.address , addres_regisater_type.add_reg_id,tbl_add_panel_with_register_tag.add_reg_id from addres_regisater_type left join tbl_add_panel_with_register_tag on addres_regisater_type.add_reg_id=tbl_add_panel_with_register_tag.add_reg_id where penal_id='" + machine_id + "'";
-                PreparedStatement pstnsql = con.prepareStatement(sql);
-                ResultSet rssql = pstnsql.executeQuery();
-                while (rssql.next()) {
+                    String sql = "select addres_regisater_type.address , addres_regisater_type.add_reg_id,tbl_add_panel_with_register_tag.add_reg_id from addres_regisater_type left join tbl_add_panel_with_register_tag on addres_regisater_type.add_reg_id=tbl_add_panel_with_register_tag.add_reg_id where penal_id='" + machine_id + "'";
+                    PreparedStatement pstnsql = con.prepareStatement(sql);
+                    ResultSet rssql = pstnsql.executeQuery();
+                    while (rssql.next()) {
 
-                    JSONObject jsonObject1 = new JSONObject();
-                    String address = rssql.getString("address");
-                    String sql1 = "select addres_regisater_type.address,tbl_plcreg_type.plc_register from addres_regisater_type left join tbl_plcreg_type on addres_regisater_type.reg_id=tbl_plcreg_type.register_plc_id where address='" + address + "'";
-                    PreparedStatement pstnsql1 = con.prepareStatement(sql1);
-                    ResultSet rssql1 = pstnsql1.executeQuery();
-                    while (rssql1.next()) {
-                        List<String> listStrings = new ArrayList<>();
-                        List<String> listStrings1 = new ArrayList<>();
+                        JSONObject jsonObject1 = new JSONObject();
+                        String address = rssql.getString("address");
+                        String sql1 = "select addres_regisater_type.address,tbl_plcreg_type.plc_register from addres_regisater_type left join tbl_plcreg_type on addres_regisater_type.reg_id=tbl_plcreg_type.register_plc_id where address='" + address + "'";
+                        PreparedStatement pstnsql1 = con.prepareStatement(sql1);
+                        ResultSet rssql1 = pstnsql1.executeQuery();
+                        while (rssql1.next()) {
+                            List<String> listStrings = new ArrayList<>();
+                            List<String> listStrings1 = new ArrayList<>();
 
-                        String plc_register = rssql1.getString("plc_register");
-                        System.out.println("plc_register: " + plc_register);
+                            String plc_register = rssql1.getString("plc_register");
+                            System.out.println("plc_register: " + plc_register);
 
-                        String address1 = rssql1.getString("address");
-                        System.out.println("address1: " + address1);
+                            String address1 = rssql1.getString("address");
+                            System.out.println("address1: " + address1);
 
-                        listStrings.add(plc_register);
-                        jsonObject1.put("Method", listStrings);
-                        listStrings1.add(address1);
-                        jsonObject1.put("lport", listStrings1);
+                            listStrings.add(plc_register);
+                            jsonObject1.put("Method", listStrings);
+                            listStrings1.add(address1);
+                            jsonObject1.put("lport", listStrings1);
+                        }
+                        obj1.add(jsonObject1);
                     }
-                    obj1.add(jsonObject1);
-                }
-                jsonObject.put("work",obj1);
-                obj.add(jsonObject);
+                   jsonObject.put("work",obj1);
+                 obj.add(jsonObject);
             }
 
             file.write(String.valueOf(obj));
@@ -229,3 +228,7 @@ public class PanelController {
                 machineId), HttpStatus.ACCEPTED);
     }
 }
+
+
+
+
