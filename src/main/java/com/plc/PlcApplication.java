@@ -27,7 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -82,7 +84,7 @@ public class PlcApplication  implements ApplicationRunner {
 					{
 
 
-						String content = new Scanner(new File("/home/endloss/Desktop/data.json")).next();
+						String content = new Scanner(new File("C:/Users/Endlos/Desktop/data.json")).next();
 //							System.out.println("--------------------------------------------"+content+"----------------------------------------");
 //							String[] textStr = content.split("\n");
 //							String aa = textStr[0];
@@ -97,7 +99,7 @@ public class PlcApplication  implements ApplicationRunner {
 
 
 							//C:/Users/Endlos/Downloads/data.json
-							jsonArray = (JSONArray) parser.parse(new FileReader("/home/endloss/Desktop/data.json"));
+							jsonArray = (JSONArray) parser.parse(new FileReader("C:/Users/Endlos/Desktop/data.json"));
 
 							int i = 1;
 							//   String n=null;
@@ -163,7 +165,7 @@ public class PlcApplication  implements ApplicationRunner {
 
 								//log.info("save Data {}",jsonRepository.save(jsondata));
 								i++;
-								BufferedWriter writer = Files.newBufferedWriter(Paths.get("/home/endloss/Desktop/data.json"));
+								BufferedWriter writer = Files.newBufferedWriter(Paths.get("C:/Users/Endlos/Desktop/data.json"));
 								writer.write("[{}]");
 								writer.flush();
 							}
@@ -178,7 +180,7 @@ public class PlcApplication  implements ApplicationRunner {
 					throw new RuntimeException(e);
 				}
 			}
-		}, 0, 10000000);
+		}, 0, 1000000);
 
 		Timer t1 = new Timer();
 		t1.schedule(new TimerTask() {
@@ -189,6 +191,9 @@ public class PlcApplication  implements ApplicationRunner {
 				String user = "postgres";
 				String password = "postgres";
 				Connection con= DriverManager.getConnection(url, user, password);
+
+
+
 				int i=1;
 				String select_sql="select tblmachine_details.machine_id,tblmachine_details.machine_ip, tblmachine_details.dev_id, tblmachine_details.machine_port from tblmachine_details";
 				PreparedStatement pstn = con.prepareStatement(select_sql);
@@ -198,7 +203,7 @@ public class PlcApplication  implements ApplicationRunner {
 
 					JSONArray obj = new JSONArray();
 
-					FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
+					FileWriter file = new FileWriter("C:/Users/Endlos/Desktop/machine.json");
 					while (rs.next()) {
 
 						int machine_id = rs.getInt("machine_id");
@@ -222,39 +227,90 @@ public class PlcApplication  implements ApplicationRunner {
 
 						JSONArray obj1 = new JSONArray();
 
+						JSONObject jsonObject1 = new JSONObject();
+						JSONObject jsonObject2 = new JSONObject();
+						JSONObject jsonObject3 = new JSONObject();
+
+						List<String> listStrings1 = new ArrayList<>();
+						List<String> listStrings2 = new ArrayList<>();
+						List<String> listStrings3 = new ArrayList<>();
 
 						String sql = "select addres_regisater_type.address , addres_regisater_type.add_reg_id,tbl_add_panel_with_register_tag.add_reg_id from addres_regisater_type left join tbl_add_panel_with_register_tag on addres_regisater_type.add_reg_id=tbl_add_panel_with_register_tag.add_reg_id where penal_id='" + machine_id + "'";
 						PreparedStatement pstnsql = con.prepareStatement(sql);
 						ResultSet rssql = pstnsql.executeQuery();
 						while (rssql.next()) {
 
-							JSONObject jsonObject1 = new JSONObject();
+
+
+
 							String address = rssql.getString("address");
+
+
+
 							String sql1 = "select addres_regisater_type.address,tbl_plcreg_type.plc_register from addres_regisater_type left join tbl_plcreg_type on addres_regisater_type.reg_id=tbl_plcreg_type.register_plc_id where address='" + address + "'";
 							PreparedStatement pstnsql1 = con.prepareStatement(sql1);
 							ResultSet rssql1 = pstnsql1.executeQuery();
 							while (rssql1.next()) {
-								List<String> listStrings = new ArrayList<>();
-								List<String> listStrings1 = new ArrayList<>();
+
+
+
+
 
 								String plc_register = rssql1.getString("plc_register");
-								System.out.println("plc_register: " + plc_register);
-
+								//System.out.println("plc_register: " + plc_register);
 								String address1 = rssql1.getString("address");
-								System.out.println("address1: " + address1);
+								//System.out.println("address1: " + address1);
 
-								listStrings.add(plc_register);
-								//jsonObject1.put("method", listStrings);
-								jsonObject1.put("method",plc_register);
-								listStrings1.add(address1);
-								jsonObject1.put("lport", listStrings1);
+
+
+
+								if(plc_register.equals("Coil Register"))
+								{
+									jsonObject1.put("method",plc_register);
+									listStrings1.add(address1);
+									//System.out.println("listString1: " + listStrings1);
+									jsonObject1.put("lport", listStrings1);
+//									jsonObject1.put("lport", listStrings1);
+
+								}
+								else {
+									obj1.remove(jsonObject1);
+								}
+								if(plc_register.equals("Holding Register"))
+								{
+									jsonObject2.put("method",plc_register);
+									listStrings2.add(address1);
+									//System.out.println("listStrings2: " + listStrings2);
+									jsonObject2.put("lport", listStrings2);
+								}
+								else {
+									obj1.remove(jsonObject2);
+								}
+								if(plc_register.equals("Input Output Register"))
+								{
+									jsonObject3.put("method",plc_register);
+									listStrings3.add(address1);
+									//System.out.println("listStrings3: " + listStrings3);
+									jsonObject3.put("lport", listStrings3);
+
+								}
+								else {
+									obj1.remove(jsonObject3);
+								}
+
 							}
-							obj1.add(jsonObject1);
-							System.out.println("obj1: "+obj1);
+
 						}
+
+
+
+						obj1.add(jsonObject1);
+						obj1.add(jsonObject2);
+						obj1.add(jsonObject3);
+
 						jsonObjectPayload.put("work",obj1);
 						obj.add(jsonObjectPayload);
-						System.out.println("obj: "+obj);
+
 					}
 
 					file.write(String.valueOf(obj));
@@ -267,7 +323,7 @@ public class PlcApplication  implements ApplicationRunner {
 				}
 
 			}
-		}, 0, 100000);//10000 MEANS 10 second
+		}, 0, 10000);//10000 MEANS 10 second
 
 
 	}
