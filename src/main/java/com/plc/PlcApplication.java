@@ -1,12 +1,15 @@
 package com.plc;
 
+
 import com.plc.json.model.Jsondata;
 import com.plc.json.repository.JsonRepository;
+import com.plc.panel.Controller.PanelController;
 import com.plc.user.entity.Role;
 import com.plc.user.entity.Roles;
 import com.plc.user.entity.User;
 import com.plc.user.repository.RoleRepository;
 import com.plc.user.repository.UserRepository;
+
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
@@ -17,13 +20,17 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 public class PlcApplication  implements ApplicationRunner {
@@ -32,17 +39,24 @@ public class PlcApplication  implements ApplicationRunner {
 	private final RoleRepository roleRepository;
 	private final PasswordEncoder passwordEncoder;
 	public static JsonRepository jsonRepository;
+
+//	private static GsonService service=new GsonService();
+
 	public static final Logger log= LoggerFactory.getLogger(PlcApplication.class);
+
+
 
 	public PlcApplication(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JsonRepository jsonRepository) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.jsonRepository = jsonRepository;
+
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, IOException, ParseException, SQLException{
 		SpringApplication.run(PlcApplication.class, args);
+
 
 
 		Timer t = new Timer();
@@ -59,7 +73,7 @@ public class PlcApplication  implements ApplicationRunner {
 
 
 
-					File file = new File("C:/Users/Endlos/Desktop/data.json");
+					File file = new File("/home/endloss/Desktop/data.json");
 
 					if (file.length() == 0L) {
 						System.out.println("File is empty");
@@ -68,7 +82,7 @@ public class PlcApplication  implements ApplicationRunner {
 					{
 
 
-						String content = new Scanner(new File("C:/Users/Endlos/Desktop/data.json")).next();
+						String content = new Scanner(new File("/home/endloss/Desktop/data.json")).next();
 //							System.out.println("--------------------------------------------"+content+"----------------------------------------");
 //							String[] textStr = content.split("\n");
 //							String aa = textStr[0];
@@ -83,7 +97,7 @@ public class PlcApplication  implements ApplicationRunner {
 
 
 							//C:/Users/Endlos/Downloads/data.json
-							jsonArray = (JSONArray) parser.parse(new FileReader("C:/Users/Endlos/Desktop/data.json"));
+							jsonArray = (JSONArray) parser.parse(new FileReader("/home/endloss/Desktop/data.json"));
 
 							int i = 1;
 							//   String n=null;
@@ -149,7 +163,7 @@ public class PlcApplication  implements ApplicationRunner {
 
 								//log.info("save Data {}",jsonRepository.save(jsondata));
 								i++;
-								BufferedWriter writer = Files.newBufferedWriter(Paths.get("C:/Users/Endlos/Desktop/data.json"));
+								BufferedWriter writer = Files.newBufferedWriter(Paths.get("/home/endloss/Desktop/data.json"));
 								writer.write("[{}]");
 								writer.flush();
 							}
@@ -164,7 +178,7 @@ public class PlcApplication  implements ApplicationRunner {
 					throw new RuntimeException(e);
 				}
 			}
-		}, 0, 500000);
+		}, 0, 10000000);
 
 		Timer t1 = new Timer();
 		t1.schedule(new TimerTask() {
@@ -184,7 +198,7 @@ public class PlcApplication  implements ApplicationRunner {
 
 					JSONArray obj = new JSONArray();
 
-					FileWriter file = new FileWriter("C:/Users/Endlos/Desktop/machine.json");
+					FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
 					while (rs.next()) {
 
 						int machine_id = rs.getInt("machine_id");
@@ -194,11 +208,17 @@ public class PlcApplication  implements ApplicationRunner {
 						int machine_port = rs.getInt("machine_port");
 
 
+						Map<String,Object> jsonObjectPayload=new LinkedHashMap<>();
+						jsonObjectPayload.put("IP",machine_ip);
+						jsonObjectPayload.put("unitid",String.valueOf(dev_id));
+						jsonObjectPayload.put("port",String.valueOf(machine_port));
 
-						JSONObject jsonObject = new JSONObject();
-						jsonObject.put("IP", machine_ip);
-						jsonObject.put("unitid", String.valueOf(dev_id));
-						jsonObject.put("port", String.valueOf(machine_port));
+
+//						JSONObject jsonObject = new JSONObject();
+//
+//						jsonObject.put("IP", machine_ip);
+//						jsonObject.put("unitid", String.valueOf(dev_id));
+//						jsonObject.put("port", String.valueOf(machine_port));
 
 						JSONArray obj1 = new JSONArray();
 
@@ -224,15 +244,16 @@ public class PlcApplication  implements ApplicationRunner {
 								System.out.println("address1: " + address1);
 
 								listStrings.add(plc_register);
-								jsonObject1.put("Method", listStrings);
+								//jsonObject1.put("method", listStrings);
+								jsonObject1.put("method",plc_register);
 								listStrings1.add(address1);
 								jsonObject1.put("lport", listStrings1);
 							}
 							obj1.add(jsonObject1);
 							System.out.println("obj1: "+obj1);
 						}
-						jsonObject.put("work",obj1);
-						obj.add(jsonObject);
+						jsonObjectPayload.put("work",obj1);
+						obj.add(jsonObjectPayload);
 						System.out.println("obj: "+obj);
 					}
 
@@ -248,7 +269,9 @@ public class PlcApplication  implements ApplicationRunner {
 			}
 		}, 0, 100000);//10000 MEANS 10 second
 
+
 	}
+
 
 
 	@Override
