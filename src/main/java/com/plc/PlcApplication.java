@@ -84,7 +84,7 @@ public class PlcApplication  implements ApplicationRunner {
 					{
 
 
-						String content = new Scanner(new File("C:/Users/Endlos/Desktop/data.json")).next();
+						String content = new Scanner(new File("/home/endloss/Desktop/data.json")).next();
 //							System.out.println("--------------------------------------------"+content+"----------------------------------------");
 //							String[] textStr = content.split("\n");
 //							String aa = textStr[0];
@@ -99,7 +99,7 @@ public class PlcApplication  implements ApplicationRunner {
 
 
 							//C:/Users/Endlos/Downloads/data.json
-							jsonArray = (JSONArray) parser.parse(new FileReader("C:/Users/Endlos/Desktop/data.json"));
+							jsonArray = (JSONArray) parser.parse(new FileReader("/home/endloss/Desktop/data.json"));
 
 							int i = 1;
 							//   String n=null;
@@ -165,7 +165,7 @@ public class PlcApplication  implements ApplicationRunner {
 
 								//log.info("save Data {}",jsonRepository.save(jsondata));
 								i++;
-								BufferedWriter writer = Files.newBufferedWriter(Paths.get("C:/Users/Endlos/Desktop/data.json"));
+								BufferedWriter writer = Files.newBufferedWriter(Paths.get("/home/endloss/Desktop/data.json"));
 								writer.write("[{}]");
 								writer.flush();
 							}
@@ -203,7 +203,7 @@ public class PlcApplication  implements ApplicationRunner {
 
 					JSONArray obj = new JSONArray();
 
-					FileWriter file = new FileWriter("C:/Users/Endlos/Desktop/machine.json");
+					FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
 					while (rs.next()) {
 
 						int machine_id = rs.getInt("machine_id");
@@ -273,9 +273,7 @@ public class PlcApplication  implements ApplicationRunner {
 //									jsonObject1.put("lport", listStrings1);
 
 								}
-								else {
-									obj1.remove(jsonObject1);
-								}
+
 								if(plc_register.equals("Holding Register"))
 								{
 									jsonObject2.put("method",plc_register);
@@ -283,9 +281,7 @@ public class PlcApplication  implements ApplicationRunner {
 									//System.out.println("listStrings2: " + listStrings2);
 									jsonObject2.put("lport", listStrings2);
 								}
-								else {
-									obj1.remove(jsonObject2);
-								}
+
 								if(plc_register.equals("Input Output Register"))
 								{
 									jsonObject3.put("method",plc_register);
@@ -294,19 +290,36 @@ public class PlcApplication  implements ApplicationRunner {
 									jsonObject3.put("lport", listStrings3);
 
 								}
-								else {
-									obj1.remove(jsonObject3);
-								}
+
 
 							}
 
 						}
+						if(jsonObject1.isEmpty())
+						{
 
+						}
+						else
+						{
+							obj1.add(jsonObject1);
+						}
+						if(jsonObject2.isEmpty())
+						{
 
+						}
+						else
+						{
+							obj1.add(jsonObject2);
+						}
+						if(jsonObject3.isEmpty())
+						{
 
-						obj1.add(jsonObject1);
-						obj1.add(jsonObject2);
-						obj1.add(jsonObject3);
+						}
+						else
+						{
+							obj1.add(jsonObject3);
+						}
+
 
 						jsonObjectPayload.put("work",obj1);
 						obj.add(jsonObjectPayload);
