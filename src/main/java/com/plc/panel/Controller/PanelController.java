@@ -26,12 +26,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @CrossOrigin
 @RequestMapping(value = "/machine/api")
 public class PanelController {
-    private static final Logger log= LoggerFactory.getLogger(PanelController.class);
+    private static final Logger log = LoggerFactory.getLogger(PanelController.class);
     private final PanelServiceImpl machineServiceImpl;
 
     public PanelController(PanelServiceImpl machineServiceImpl) {
         this.machineServiceImpl = machineServiceImpl;
     }
+
     @PostMapping
     public ResponseEntity<?> saveMachine(@RequestBody PanelSaveDto panelSaveDto) throws SQLException, IOException {
 
@@ -42,18 +43,16 @@ public class PanelController {
     }
 
 
-
     @PutMapping(value = "/{machineId}")
-    public ResponseEntity<?> updateMachine(@PathVariable Long machineId, @RequestBody PanelSaveDto panelSaveDto) throws SQLException, IOException {
+    public ResponseEntity<?> updateMachine(@PathVariable Long machineId, @RequestBody PanelSaveDto panelSaveDto) throws SQLException {
 
         Object updateMachine = machineServiceImpl.update(machineId, panelSaveDto);
 
         String url = "jdbc:postgresql://localhost:5432/plc_project";
         String user = "postgres";
         String password = "postgres";
-        int i = 1;
         Connection con = DriverManager.getConnection(url, user, password);
-        String select_sql="select tblmachine_details.machine_id,tblmachine_details.machine_ip, tblmachine_details.dev_id, tblmachine_details.machine_port from tblmachine_details";
+        String select_sql = "select tblmachine_details.machine_id,tblmachine_details.machine_ip, tblmachine_details.dev_id, tblmachine_details.machine_port from tblmachine_details";
         PreparedStatement pstn = con.prepareStatement(select_sql);
         ResultSet rs = pstn.executeQuery();
 
@@ -61,54 +60,103 @@ public class PanelController {
         try {
             JSONArray obj = new JSONArray();
 
-            FileWriter file = new FileWriter("C:/Users/Endlos/Desktop/machine.json");
+            FileWriter file = new FileWriter("/home/endloss/Desktop/machine.json");
             while (rs.next()) {
 
                 int machine_id = rs.getInt("machine_id");
                 String machine_ip = rs.getString("machine_ip");
-                System.out.println("----------------------:"+machine_ip);
+                log.info("--------------machinneip :{}",machine_ip);
                 int dev_id = rs.getInt("dev_id");
                 int machine_port = rs.getInt("machine_port");
 
 
+                Map<String, Object> jsonObjectPayload = new LinkedHashMap<>();
+                jsonObjectPayload.put("IP", machine_ip);
+                jsonObjectPayload.put("unitid", String.valueOf(dev_id));
+                jsonObjectPayload.put("port", String.valueOf(machine_port));
 
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("IP", machine_ip);
-                jsonObject.put("unitid", String.valueOf(dev_id));
-                jsonObject.put("port", String.valueOf(machine_port));
+
+//						JSONObject jsonObject = new JSONObject();
+//
+//						jsonObject.put("IP", machine_ip);
+//						jsonObject.put("unitid", String.valueOf(dev_id));
+//						jsonObject.put("port", String.valueOf(machine_port));
 
                 JSONArray obj1 = new JSONArray();
 
+                JSONObject jsonObject1 = new JSONObject();
+                JSONObject jsonObject2 = new JSONObject();
+                JSONObject jsonObject3 = new JSONObject();
 
-                    String sql = "select addres_regisater_type.address , addres_regisater_type.add_reg_id,tbl_add_panel_with_register_tag.add_reg_id from addres_regisater_type left join tbl_add_panel_with_register_tag on addres_regisater_type.add_reg_id=tbl_add_panel_with_register_tag.add_reg_id where penal_id='" + machine_id + "'";
-                    PreparedStatement pstnsql = con.prepareStatement(sql);
-                    ResultSet rssql = pstnsql.executeQuery();
-                    while (rssql.next()) {
+                List<String> listStrings1 = new ArrayList<>();
+                List<String> listStrings2 = new ArrayList<>();
+                List<String> listStrings3 = new ArrayList<>();
 
-                        JSONObject jsonObject1 = new JSONObject();
-                        String address = rssql.getString("address");
-                        String sql1 = "select addres_regisater_type.address,tbl_plcreg_type.plc_register from addres_regisater_type left join tbl_plcreg_type on addres_regisater_type.reg_id=tbl_plcreg_type.register_plc_id where address='" + address + "'";
-                        PreparedStatement pstnsql1 = con.prepareStatement(sql1);
-                        ResultSet rssql1 = pstnsql1.executeQuery();
-                        while (rssql1.next()) {
-                            List<String> listStrings = new ArrayList<>();
-                            List<String> listStrings1 = new ArrayList<>();
+                String sql = "select addres_regisater_type.address , addres_regisater_type.add_reg_id,tbl_add_panel_with_register_tag.add_reg_id from addres_regisater_type left join tbl_add_panel_with_register_tag on addres_regisater_type.add_reg_id=tbl_add_panel_with_register_tag.add_reg_id where penal_id='" + machine_id + "'";
+                PreparedStatement pstnsql = con.prepareStatement(sql);
+                ResultSet rssql = pstnsql.executeQuery();
+                while (rssql.next()) {
 
-                            String plc_register = rssql1.getString("plc_register");
-                            System.out.println("plc_register: " + plc_register);
 
-                            String address1 = rssql1.getString("address");
-                            System.out.println("address1: " + address1);
+                    String address = rssql.getString("address");
 
-                            listStrings.add(plc_register);
-                            jsonObject1.put("Method", listStrings);
+
+                    String sql1 = "select addres_regisater_type.address,tbl_plcreg_type.plc_register from addres_regisater_type left join tbl_plcreg_type on addres_regisater_type.reg_id=tbl_plcreg_type.register_plc_id where address='" + address + "'";
+                    PreparedStatement pstnsql1 = con.prepareStatement(sql1);
+                    ResultSet rssql1 = pstnsql1.executeQuery();
+                    while (rssql1.next()) {
+
+
+                        String plc_register = rssql1.getString("plc_register");
+                        //System.out.println("plc_register: " + plc_register);
+                        String address1 = rssql1.getString("address");
+                        //System.out.println("address1: " + address1);
+
+
+                        if (plc_register.equals("Coil Register")) {
+                            jsonObject1.put("method", plc_register);
                             listStrings1.add(address1);
                             jsonObject1.put("lport", listStrings1);
+
                         }
-                        obj1.add(jsonObject1);
+
+                        if (plc_register.equals("Holding Register")) {
+                            jsonObject2.put("method", plc_register);
+                            listStrings2.add(address1);
+                            jsonObject2.put("lport", listStrings2);
+                        }
+
+                        if (plc_register.equals("Input Output Register")) {
+                            jsonObject3.put("method", plc_register);
+                            listStrings3.add(address1);
+                            //System.out.println("listStrings3: " + listStrings3);
+                            jsonObject3.put("lport", listStrings3);
+
+                        }
+
+
                     }
-                   jsonObject.put("work",obj1);
-                 obj.add(jsonObject);
+
+                }
+                if (jsonObject1.isEmpty()) {
+
+                } else {
+                    obj1.add(jsonObject1);
+                }
+                if (jsonObject2.isEmpty()) {
+
+                } else {
+                    obj1.add(jsonObject2);
+                }
+                if (jsonObject3.isEmpty()) {
+
+                } else {
+                    obj1.add(jsonObject3);
+                }
+
+
+                jsonObjectPayload.put("work", obj1);
+                obj.add(jsonObjectPayload);
             }
 
             file.write(String.valueOf(obj));
@@ -121,27 +169,28 @@ public class PanelController {
         }
 
 
-        return new ResponseEntity<>(PageResponse.SuccessResponse(updateMachine),HttpStatus.OK);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(updateMachine), HttpStatus.OK);
 
     }
+
     @GetMapping(value = "getDataById/{machineId}")
-    public ResponseEntity<?> getById(@PathVariable Long machineId)
-    {
-        Object updateMachine=machineServiceImpl.findById(machineId);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(updateMachine),HttpStatus.OK);
+    public ResponseEntity<?> getById(@PathVariable Long machineId) {
+        Object updateMachine = machineServiceImpl.findById(machineId);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(updateMachine), HttpStatus.OK);
     }
+
     @GetMapping
-    public ResponseEntity<?> getAll()
-    {
-        Object updateMachine=machineServiceImpl.findAll();
-        return new ResponseEntity<>(PageResponse.SuccessResponse(updateMachine),HttpStatus.OK);
+    public ResponseEntity<?> getAll() {
+        Object updateMachine = machineServiceImpl.findAll();
+        return new ResponseEntity<>(PageResponse.SuccessResponse(updateMachine), HttpStatus.OK);
     }
+
     @GetMapping(value = "deleteDataById/{machineId}")
-    public ResponseEntity<?> deleteById(@PathVariable Long machineId)
-    {
-        Object updateMachine=machineServiceImpl.Delete(machineId);
-        return new ResponseEntity<>(PageResponse.SuccessResponse(updateMachine),HttpStatus.NO_CONTENT);
+    public ResponseEntity<?> deleteById(@PathVariable Long machineId) {
+        Object updateMachine = machineServiceImpl.Delete(machineId);
+        return new ResponseEntity<>(PageResponse.SuccessResponse(updateMachine), HttpStatus.NO_CONTENT);
     }
+
     @DeleteMapping(value = "/{machineId}/update/{companyId}")
     public ResponseEntity<?> companyRemoveIdMachine(@PathVariable Long machineId, @PathVariable Long companyId) {
         machineServiceImpl.removeCompanyInMachine(machineId, companyId);
